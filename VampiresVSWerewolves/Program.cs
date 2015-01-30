@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Configuration
+using System.Configuration;
 
 namespace VampiresVSWerewolves
 {
@@ -17,20 +17,21 @@ namespace VampiresVSWerewolves
 
         static void Main(string[] args)
         {
-            string ip = ConfigurationSettings.AppSettings["ipmaster"]; //"138.195.86.154";
-            int port = Convert.ToInt32(ConfigurationSettings.AppSettings["portmaster"]); //5555;
-            string team = ConfigurationSettings.AppSettings["team"];
+            string ip = ConfigurationManager.AppSettings["testip"]; //"138.195.86.154";
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["testport"]); //5555;
+            string team = ConfigurationManager.AppSettings["team"];
 
             /****************** DEMARRAGE ******************/
             //Crée le point terminal de la connexion
             var ipep = new System.Net.IPEndPoint(IPAddress.Parse(ip), port);
 
             //Crée une socket pour se connecter au serveur
+            Console.WriteLine("Trying to connect");
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //Demande de connection
             socket.Connect(ipep);
-
+            Console.WriteLine("Connected");
             /****************** PROTOCOLE: Nom ******************/
             //On envoie NME
             socket.Send(NME);
