@@ -35,8 +35,10 @@ namespace VampiresVSWerewolves
             /****************** PROTOCOLE: Nom ******************/
             //On envoie NME
             socket.Send(NME);
-            socket.Send(new byte[] { 7 });
-            socket.Send(Encoding.ASCII.GetBytes("FSVY")); //<-- Remplacez ici par le nom de votre groupe
+            socket.Send(new byte[] { 4 });
+            socket.Send(Encoding.ASCII.GetBytes(team)); //<-- Remplacez ici par le nom de votre groupe
+            Console.WriteLine("Team name sent");
+
 
             /****************** PROTOCOLE: Carte ******************/
             //On reçoit SET
@@ -47,7 +49,9 @@ namespace VampiresVSWerewolves
 
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "SET")
                 throw new Exception("Erreur, attendu: SET");
-
+            
+            Console.WriteLine("Row Number: " + Convert.ToString(buffer[3]));
+            Console.WriteLine("Column Number: " + Convert.ToString(buffer[4]));
             //Utilisez buffer[3] (lignes) et buffer[4] (colonnes) pour créer une grille
 
             //On recoit HUM
@@ -71,6 +75,7 @@ namespace VampiresVSWerewolves
                 throw new Exception("Erreur, attendu: HME");
 
             //Mettez à jour votre grille en utilisant (buffer[3], buffer[4]) comme coordonnées de votre demeure
+            Console.WriteLine("Ma demeure: " + Convert.ToString(buffer[3]) + " & " + Convert.ToString(buffer[4]));
 
             //On recoit MAP
             while (socket.Available < 4)
