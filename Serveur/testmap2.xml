@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Map Rows="5" Columns="6">
-  <Humans X="2" Y="2" Count="1"/>
-  <Humans X="4" Y="4" Count="1"/>
-  <Werewolves X="2" Y="3" Count="3"/>
-  <Vampires X="5" Y="4" Count="3"/>
+<Map Columns="9" Rows="7">
+  <Humans X="2" Y="3" Count="4"/>
+  <Humans X="8" Y="3" Count="1"/>
+  <Humans X="8" Y="0" Count="2"/>
+  <Humans X="8" Y="6" Count="2"/>
+  <Werewolves X="4" Y="2" Count="4"/>
+  <Vampires X="4" Y="4" Count="4"/>
 </Map>
