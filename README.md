@@ -12,5 +12,7 @@ VampiresVSWerwolves project
 		au parent de la liste.
 
 ## Previous commits description
+-------
 	2) Added Map class
+-------
 	1) First commit
