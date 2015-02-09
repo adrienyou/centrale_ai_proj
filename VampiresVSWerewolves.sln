@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "VampiresVSWerewolves\Controller.csproj", "{504BBDE8-C387-441F-A340-08279C78F4AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tree", "Tree\Tree.csproj", "{EA297544-FF6A-42D9-9CE2-9684E5E90045}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{504BBDE8-C387-441F-A340-08279C78F4AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{504BBDE8-C387-441F-A340-08279C78F4AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{504BBDE8-C387-441F-A340-08279C78F4AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA297544-FF6A-42D9-9CE2-9684E5E90045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA297544-FF6A-42D9-9CE2-9684E5E90045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA297544-FF6A-42D9-9CE2-9684E5E90045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA297544-FF6A-42D9-9CE2-9684E5E90045}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

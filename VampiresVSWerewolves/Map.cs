@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace VampiresVSWerewolves
 {
-    class Map
+    public class Map
     {
-        private int Height { get; set; }
-        private int Width { get; set; }
-        private Cell[][] Matrix { get; set; }
+        private int _Height { get; set; }
+        private int _Width { get; set; }
+        private Cell[][] _Matrix { get; set; }
 
         public Map(int height, int width)
         {
             //First set the values of the parameters
-            Height = height;
-            Width = width;
+            _Height = height;
+            _Width = width;
 
             //Then instantiate the array of array of cells
-            Matrix = new Cell[height][];
+            _Matrix = new Cell[height][];
             for (int r = 0; r < height; ++r)
             {
-                Matrix[r] = new Cell[width];
+                _Matrix[r] = new Cell[width];
             }
         }
 

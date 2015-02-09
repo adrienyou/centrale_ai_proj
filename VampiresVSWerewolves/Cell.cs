@@ -8,18 +8,18 @@ namespace VampiresVSWerewolves
 {
     public enum CellState {Empty, Humans, Vampires, Werewolves}
 
-    class Cell
+    public class Cell
     {
-        private Position Position { get; set; }
-        private int Pop { get; set; }
-        private CellState State { get; set; }
+        private Position _Position { get; set; }
+        private int _Pop { get; set; }
+        private CellState _State { get; set; }
         
 
         public Cell(int x, int y, CellState state, int pop)
         {
-            Position = new Position(x, y);
-            Pop = pop;
-            State = state;
+            _Position = new Position(x, y);
+            _Pop = pop;
+            _State = state;
         }        
     }
 }
