@@ -1,19 +1,19 @@
 VampiresVSWerwolves project
 
 ## Last commit description 
-	Ajout d'une classe worker, qui permet de vérifier le temps d'execution 
+	Ajout d'une classe worker, qui permet de vÃ©rifier le temps d'execution 
 	de notre fonction.
 
 ## Previous commits description
 -------
-	3) J'ai rajouté un module Tree qui contient deux classes : 
-		- TreeNode, qui comme vous l'avez compris représente un noeud de l'arbre. 
+	3) J'ai rajoutÃ© un module Tree qui contient deux classes : 
+		- TreeNode, qui comme vous l'avez compris reprÃ©sente un noeud de l'arbre. 
 		Trois fields : le noeud parent, la liste des noeuds enfants et la valeur.
-		Après avoir vérifié, pas besoin de pointers car en C#, les fields sont passés 
-		par référence (donc on ne recréer pas un object)
+		AprÃ¨s avoir vÃ©rifiÃ©, pas besoin de pointers car en C#, les fields sont passÃ©s 
+		par rÃ©fÃ©rence (donc on ne recrÃ©er pas un object)
 
 		- TreeNodeList, qui est une liste de TreeNode, avec un seul field, le parent. 
-		Contient une méthode add, qui rajoute un noeud à une liste, égalisant son parent 
+		Contient une mÃ©thode add, qui rajoute un noeud Ã  une liste, Ã©galisant son parent 
 		au parent de la liste.
 -------
 	2) Added Map class
