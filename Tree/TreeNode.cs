@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArtificialIntelligence.Tree
 {
-    public class TreeNode<T> : IDisposable where T : class, new()
+    public class TreeNode<T>
     {
         private TreeNode<T> _Parent;
         private TreeNodeList<T> _Children;
@@ -34,7 +34,7 @@ namespace ArtificialIntelligence.Tree
         }
         
         
-        // Fields accessos
+        // Fields accessors
         public TreeNode<T> Parent
         {
             get { return _Parent; }

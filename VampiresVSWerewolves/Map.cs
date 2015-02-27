@@ -10,9 +10,13 @@ namespace VampiresVSWerewolves
     {
         private int _Height { get; set; }
         private int _Width { get; set; }
-        private Cell[][] _Matrix { get; set; }
+        private List<Cell> _HumanCells { get; set; }
+        private List<Cell> _VampireCells { get; set; }
+        private List<Cell> _WerewolvesCells { get; set; }
+        
+        //private Cell[][] _Matrix { get; set; }
 
-        public Map(int height, int width)
+        /*public Map(int height, int width)
         {
             //First set the values of the parameters
             _Height = height;
@@ -25,10 +29,7 @@ namespace VampiresVSWerewolves
                 _Matrix[r] = new Cell[width];
             }
         }
+        */
 
-        public void ModifyMap()
-        {
-
-        }
     }
 }
