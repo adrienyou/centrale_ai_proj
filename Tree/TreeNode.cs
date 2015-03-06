@@ -11,12 +11,14 @@ namespace ArtificialIntelligence.Tree
         private TreeNode<T> _Parent;
         private TreeNodeList<T> _Children;
         private T _Value;
+        private int _Profondeur;
 
         // Constructors for a TreeNode
         public TreeNode()
         {
             _Parent = null;
             _Children = new TreeNodeList<T>(this);
+            _Profondeur = 0;
         }
 
         public TreeNode(T Value)
@@ -24,6 +26,7 @@ namespace ArtificialIntelligence.Tree
             _Value = Value;
             _Parent = null;
             _Children = new TreeNodeList<T>(this);
+            _Profondeur = 0;
         }
 
         public TreeNode(T Value, TreeNode<T> Parent)
@@ -31,8 +34,10 @@ namespace ArtificialIntelligence.Tree
             _Value = Value;
             _Parent = Parent;
             _Children = new TreeNodeList<T>(this);
+            _Profondeur = Parent.Profondeur + 1;
+
+            Parent.Children.Add(this);
         }
-        
         
         // Fields accessors
         public TreeNode<T> Parent
@@ -73,6 +78,17 @@ namespace ArtificialIntelligence.Tree
             }
         }
 
+        public int Profondeur
+        {
+            get { return _Profondeur; }
+            set
+            {
+                if (value == null)
+                    return;
+
+                _Profondeur = value;
+            }
+        }
     }
 }
 

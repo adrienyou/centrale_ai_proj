@@ -15,7 +15,7 @@ namespace ArtificialIntelligence.Tree
         {
             _Parent = Parent;
         }
- 
+
         // Add a new TreeNode to the list, set the right parent and return it.
         public new TreeNode<T> Add(TreeNode<T> Node)
         {
@@ -23,5 +23,6 @@ namespace ArtificialIntelligence.Tree
             Node.Parent = _Parent;
             return Node;
         }
+
     }
 }
