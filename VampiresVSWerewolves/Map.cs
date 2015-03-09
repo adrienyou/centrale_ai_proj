@@ -10,11 +10,13 @@ namespace VampiresVSWerewolves
     {
         private int _Height;
         private int _Width;
-
+        private State _State; // ref to the current state of the game
+ 
         public Map(int height, int width)
         {
             _Height = height;
             _Width = width;
+            _State = null;
         }
 
         // Fields accessors
@@ -26,6 +28,17 @@ namespace VampiresVSWerewolves
         public int Width
         {
             get { return _Width; }
+        }
+
+        public State State
+        {
+            get { return _State; }
+            set
+            {
+                if (value == null)
+                    return;
+                _State = value;
+            }
         }
     }
 }
