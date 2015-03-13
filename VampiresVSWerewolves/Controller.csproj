@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Move.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Position.cs" />
@@ -53,12 +54,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tree\Tree.csproj">
-      <Project>{ea297544-ff6a-42d9-9ce2-9684e5e90045}</Project>
-      <Name>Tree</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

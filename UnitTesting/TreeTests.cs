@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ArtificialIntelligence.Tree;
+using VampiresVSWerewolves;
 
 namespace UnitTesting
 {
@@ -19,7 +20,17 @@ namespace UnitTesting
             Assert.IsInstanceOfType(t_empty.Children, typeof(TreeNodeList<int>));
             Assert.AreEqual<int>(0, t_empty.Profondeur);            
         }
+        /// <summary>
+        /// Test to check that the Move properties of the object is instantiated.
+        /// </summary>
+        [TestMethod]
+        public void Move_Test()
+        {
+            Move move = new Move(0, 0, 1, 1, 1);
 
+            Assert.AreEqual<int>(move.XFrom, 0);
+            Assert.AreEqual<int>(move.Pop, 1);
+        }
         /// <summary>
         /// Test to check that the properties are correctly set when the TreeNode object is instantiated.
         /// </summary>
@@ -27,14 +38,16 @@ namespace UnitTesting
         public void ValueConstr_Test()
         {
             int value = 5;
+            Move move = new Move(0, 0, 1, 1, 1);
             NodeState state = NodeState.Min;
-            TreeNode<int> t_value = new TreeNode<int>(value, state);
+            TreeNode<int> t_value = new TreeNode<int>(value, move, state);
 
             Assert.IsNull(t_value.Parent);
             Assert.IsInstanceOfType(t_value.Children, typeof(TreeNodeList<int>));
             Assert.AreEqual<int>(0, t_value.Profondeur);
             Assert.AreEqual<int>(value, t_value.Value);
             Assert.AreEqual<NodeState>(state, t_value.State);
+            Assert.AreEqual<int>(t_value.Move.XFrom, 0);
         }
 
         /// <summary>
@@ -44,10 +57,11 @@ namespace UnitTesting
         public void FullConstr_Test()
         {
             int value = 5;
+            Move move = new Move(0, 0, 1, 1, 1);
             // Nodeconstructed as root --> with State
-            TreeNode<int> t_racine = new TreeNode<int>(value, NodeState.Max);
+            TreeNode<int> t_racine = new TreeNode<int>(value, move, NodeState.Max);
             // Node constructed with parent --> State is inferred
-            TreeNode<int> t_full = new TreeNode<int>(value, t_racine);
+            TreeNode<int> t_full = new TreeNode<int>(value, move, t_racine);
 
             Assert.IsNotNull(t_full.Parent);
             Assert.AreEqual<TreeNode<int>>(t_racine, t_full.Parent);
