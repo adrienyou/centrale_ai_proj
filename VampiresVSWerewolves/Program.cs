@@ -32,13 +32,13 @@ namespace VampiresVSWerewolves
             //Demande de connection
             socket.Connect(ipep);
             Console.WriteLine("Connected");
+
             /****************** PROTOCOLE: Nom ******************/
             //On envoie NME
             socket.Send(NME);
             socket.Send(new byte[] { 4 });
             socket.Send(Encoding.ASCII.GetBytes(team)); //<-- Remplacez ici par le nom de votre groupe
             Console.WriteLine("Team name sent");
-
 
             /****************** PROTOCOLE: Carte ******************/
             //On reçoit SET
@@ -49,12 +49,16 @@ namespace VampiresVSWerewolves
 
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "SET")
                 throw new Exception("Erreur, attendu: SET");
-            
-            Console.WriteLine("Row Number: " + Convert.ToString(buffer[3]));
-            Console.WriteLine("Column Number: " + Convert.ToString(buffer[4]));
-            //Utilisez buffer[3] (lignes) et buffer[4] (colonnes) pour créer une grille
 
-            //On recoit HUM
+            int width = Convert.ToInt16(buffer[4]); // Nombre de colonnes
+            int height = Convert.ToInt16(buffer[3]); // Nombre de lignes
+            Map map = new Map(height, width);
+
+            Console.WriteLine("Row number: " + Convert.ToString(map.Height));
+            Console.WriteLine("Column number: " + Convert.ToString(map.Width));
+
+            //On recoit HUM, cad les cases où sont placées les humains
+            Console.WriteLine("Receiving HUM...");
             while (socket.Available < 4)
                 Thread.Sleep(100);
             socket.Receive(buffer, 4, SocketFlags.Partial);
@@ -67,7 +71,7 @@ namespace VampiresVSWerewolves
             //Read contient deux fois le nombre de maisons dans la carte
             //pour tout i pair ou nul, buffer[i] contient x et buffer[i+1] contient y
 
-            //On recoit HME, c'est-à-dire la case où sont placés vos montres
+            //On recoit HME, c'est-à-dire la case où sont placés vos monstres
             while (socket.Available < 5)
                 Thread.Sleep(100);
             socket.Receive(buffer, 5, SocketFlags.Partial);
@@ -90,8 +94,17 @@ namespace VampiresVSWerewolves
 
             //Read contient 5x le nombre de 5-tuplets.
             //Buffer contient la liste des changements
+            Console.WriteLine("READ: " + Convert.ToString(read));
 
+            State state = new State(map);
+            state.Update(read, buffer);
 
+            Position pos = new Position(5, 4);
+            string pos_str = pos.Stringify();
+            Cell cell = (Cell)state.Cells[pos_str];
+            Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
+            Console.WriteLine("TEST STRING: " + state.getKey());
+            
 
             /****************** PARTIE ******************/
             while (true)

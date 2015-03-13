@@ -8,8 +8,8 @@ namespace VampiresVSWerewolves
 {
     public class Position
     {
-        private int _X { get; set; }
-        private int _Y { get; set; }
+        private int _X;
+        private int _Y;
 
         public Position(int x, int y)
         {
@@ -20,6 +20,22 @@ namespace VampiresVSWerewolves
         public static bool IsEqual(Position p1, Position p2)
         {
             return (p1._X == p2._X) && (p1._Y == p2._Y);
+        }
+
+        public string Stringify()
+        {
+            return string.Format("{0},{1}", _X, _Y);
+        }
+
+        // Fields accessors
+        public int X
+        {
+            get { return _X; }
+        }
+
+        public int Y
+        {
+            get { return _Y; }
         }
     }
 }
