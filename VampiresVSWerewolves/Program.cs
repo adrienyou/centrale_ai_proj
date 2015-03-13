@@ -104,7 +104,8 @@ namespace VampiresVSWerewolves
             Cell cell = (Cell)state.Cells[pos_str];
             Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
             Console.WriteLine("TEST STRING: " + state.getKey());
-            
+
+            Engine engine = new Engine();
 
             /****************** PARTIE ******************/
             while (true)

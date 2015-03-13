@@ -10,7 +10,7 @@ namespace VampiresVSWerewolves
 
     public class Cell
     {
-        private Position _Position { get; set; }
+        private Position _Position;
         private int _Pop { get; set; }
         private CellType _Type;
 
@@ -35,6 +35,11 @@ namespace VampiresVSWerewolves
             return string.Format("{0},{1}-{2}{3}", _Position.X, _Position.Y, _Pop, _Type.ToString()[0]);
         }
 
+        public Cell DeepCopy()
+        {
+            return new Cell(_Position.X, _Position.Y, _Type, _Pop);
+        }
+
         // Fields accessors
         public CellType Type
         {
@@ -44,6 +49,11 @@ namespace VampiresVSWerewolves
         public int Pop
         {
             get { return _Pop; }
+        }
+
+        public Position Position
+        {
+            get { return _Position; }
         }
     }
 }
