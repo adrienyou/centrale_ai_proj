@@ -124,5 +124,17 @@ namespace VampiresVSWerewolves
         {
             get { return _Cells; }
         }
+
+        // Functions needed for the evaluation function
+        public int getCurrentNbEnnemies(cellType ennemyType)
+        {
+            return ennemyType.pop;
+        }
+
+        public int getCurrentNbOurMonsters(cellType ourType)
+        {
+            return ourType.pop;
+        }
+
     }
 }
