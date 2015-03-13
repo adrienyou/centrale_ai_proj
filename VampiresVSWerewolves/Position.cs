@@ -22,7 +22,7 @@ namespace VampiresVSWerewolves
             return (p1._X == p2._X) && (p1._Y == p2._Y);
         }
 
-        public string ToString()
+        public string Stringify()
         {
             return string.Format("{0},{1}", _X, _Y);
         }

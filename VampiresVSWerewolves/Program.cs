@@ -96,47 +96,15 @@ namespace VampiresVSWerewolves
             //Buffer contient la liste des changements
             Console.WriteLine("READ: " + Convert.ToString(read));
 
-            List<Cell> humanCells = new List<Cell>();
-            List<Cell> vampireCells = new List<Cell>();
-            List<Cell> werewolvesCells = new List<Cell>();
+            State state = new State(map);
+            state.Update(read, buffer);
 
-            for (int i = 0; i < read/5; i++)
-            {
-                int x = buffer[5 * i + 0];
-                int y = buffer[5 * i + 1];
-                int humans = buffer[5 * i + 2];
-                int vampires = buffer[5 * i + 3];
-                int werewolves = buffer[5 * i + 4];
-
-                CellType cellType = CellType.Empty;
-                int pop = 0;
-                if (humans > 0)
-                {
-                    cellType = CellType.Humans;
-                    pop = humans;
-                    humanCells.Add(new Cell(x, y, cellType, humans));
-                } 
-                else if (vampires > 0) 
-                {
-                    cellType = CellType.Vampires;
-                    pop = vampires;
-                    vampireCells.Add(new Cell(x, y, cellType, vampires));
-                }
-                else if (werewolves > 0)
-                {
-                    cellType = CellType.Werewolves;
-                    pop = werewolves;
-                    werewolvesCells.Add(new Cell(x, y, cellType, werewolves));
-                }
-
-                Console.WriteLine("X: " + Convert.ToString(buffer[5*i+0]));
-                Console.WriteLine("Y: " + Convert.ToString(buffer[5*i+1]));
-                Console.WriteLine("humains: " + Convert.ToString(buffer[5*i+2]));
-                Console.WriteLine("vampires: " + Convert.ToString(buffer[5*i+3]));
-                Console.WriteLine("loups: " + Convert.ToString(buffer[5*i+4]));
-            }
-
-            State state = new State(map, humanCells, vampireCells, werewolvesCells);
+            Position pos = new Position(5, 4);
+            string pos_str = pos.Stringify();
+            Cell cell = (Cell)state.Cells[pos_str];
+            Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
+            Console.WriteLine("TEST STRING: " + state.getKey());
+            
 
             /****************** PARTIE ******************/
             while (true)

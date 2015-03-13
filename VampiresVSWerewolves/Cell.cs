@@ -13,16 +13,12 @@ namespace VampiresVSWerewolves
         private Position _Position { get; set; }
         private int _Pop { get; set; }
         private CellType _Type;
-        private int _EnnemyPop { get; set; }
-        private CellType _EnnemyType { get; set; }
 
         public Cell(int x, int y, CellType type, int pop)
         {
             _Position = new Position(x, y);
             _Pop = pop;
             _Type = type;
-            _EnnemyPop = 0;
-            _EnnemyType = null;
         }
 
         public CellType Update(int pop, CellType type)
@@ -30,53 +26,24 @@ namespace VampiresVSWerewolves
             // Update the cell type and population
             _Pop = pop;
             _Type = type;
-            _EnnemyPop = 0;
-            _EnnemyType = null;
 
-            return CellType;
+            return type;
         }
 
-        public void Move(int pop, CellType type)
+        public string Stringify()
         {
-            // Move "pop" units of type "type" from/to this cell
-            // If pop > 0 => units are arriving in the cell
-            // If pop < 0 => units are leaving the cell
-            if (type == _Type)
-            {
-                _Pop += pop;
-            }
-            else 
-            {
-                _EnnemyType = type;
-                _EnnemyPop += pop;
-            }
-        }
-
-        public CellType Fight()
-        {
-            // If ennemies are on the cell, perform the fight.
-            // Depending on the result of the fight, the cell may change type.
-            // Return the cell type after the fight.
-            if (_Type == CellType.Humans)
-            {
-                if (_EnnemyPop >= 1.5 * _Pop)
-                {
-                    // Humans are converted into the ennemies
-                    // The type of the cell changes
-                    return this.Update(_Pop + _EnnemyPop, _EnnemyType);
-                }
-                else
-                {
-                    // TO DO
-                    // Probability fight
-                }
-            }
+            return string.Format("{0},{1}-{2}{3}", _Position.X, _Position.Y, _Pop, _Type.ToString()[0]);
         }
 
         // Fields accessors
         public CellType Type
         {
             get { return _Type; }
+        }
+
+        public int Pop
+        {
+            get { return _Pop; }
         }
     }
 }
