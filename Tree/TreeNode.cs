@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace ArtificialIntelligence.Tree
 {
+    public enum NodeState { Max, Min }
+
     public class TreeNode<T>
     {
         private TreeNode<T> _Parent;
         private TreeNodeList<T> _Children;
         private T _Value;
         private int _Profondeur;
+        private NodeState _State;
 
         // Constructors for a TreeNode
         public TreeNode()
@@ -21,17 +24,19 @@ namespace ArtificialIntelligence.Tree
             _Profondeur = 0;
         }
 
-        public TreeNode(T Value)
+        public TreeNode(T Value, NodeState state)
         {
             _Value = Value;
             _Parent = null;
             _Children = new TreeNodeList<T>(this);
             _Profondeur = 0;
+            _State = state;
         }
 
         public TreeNode(T Value, TreeNode<T> Parent)
         {
             _Value = Value;
+            _State = Parent.State == NodeState.Max ? NodeState.Min : NodeState.Max;
             _Parent = Parent;
             _Children = new TreeNodeList<T>(this);
             _Profondeur = Parent.Profondeur + 1;
@@ -48,6 +53,17 @@ namespace ArtificialIntelligence.Tree
                 if (value == null)
                     return;
                 _Parent = value; 
+            }
+        }
+
+        public NodeState State
+        {
+            get { return _State; }
+            set
+            {
+                if (value == null)
+                    return;
+                _State = value;
             }
         }
 
