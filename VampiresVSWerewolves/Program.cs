@@ -109,6 +109,7 @@ namespace VampiresVSWerewolves
             byte[] resConvert = move.convertToOrder();
             Console.WriteLine("TEST MOVE CONVERT: " + resConvert[4]);
             
+            Engine engine = new Engine();
 
             /****************** PARTIE ******************/
             while (true)
