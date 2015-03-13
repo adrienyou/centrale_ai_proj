@@ -8,28 +8,37 @@ namespace VampiresVSWerewolves
 {
     public class Map
     {
-        private int _Height { get; set; }
-        private int _Width { get; set; }
-        private List<Cell> _HumanCells { get; set; }
-        private List<Cell> _VampireCells { get; set; }
-        private List<Cell> _WerewolvesCells { get; set; }
-        
-        //private Cell[][] _Matrix { get; set; }
-
-        /*public Map(int height, int width)
+        private int _Height;
+        private int _Width;
+        private State _State; // ref to the current state of the game
+ 
+        public Map(int height, int width)
         {
-            //First set the values of the parameters
             _Height = height;
             _Width = width;
+            _State = null;
+        }
 
-            //Then instantiate the array of array of cells
-            _Matrix = new Cell[height][];
-            for (int r = 0; r < height; ++r)
+        // Fields accessors
+        public int Height
+        {
+            get { return _Height; }
+        }
+
+        public int Width
+        {
+            get { return _Width; }
+        }
+
+        public State State
+        {
+            get { return _State; }
+            set
             {
-                _Matrix[r] = new Cell[width];
+                if (value == null)
+                    return;
+                _State = value;
             }
         }
-        */
-
     }
 }
