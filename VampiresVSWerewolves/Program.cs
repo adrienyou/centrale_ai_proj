@@ -99,12 +99,16 @@ namespace VampiresVSWerewolves
             State state = new State(map);
             state.Update(read, buffer);
 
-            Position pos = new Position(5, 4);
+            Position pos = new Position(4, 2);
             string pos_str = pos.Stringify();
             Cell cell = (Cell)state.Cells[pos_str];
             Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
             Console.WriteLine("TEST STRING: " + state.getKey());
 
+            Move move = new Move(1, 1, 1, 2, 2);
+            byte[] resConvert = move.convertToOrder();
+            Console.WriteLine("TEST MOVE CONVERT: " + resConvert[4]);
+            
             Engine engine = new Engine();
 
             /****************** PARTIE ******************/

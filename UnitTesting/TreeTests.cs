@@ -30,6 +30,9 @@ namespace UnitTesting
 
             Assert.AreEqual<int>(move.XFrom, 0);
             Assert.AreEqual<int>(move.Pop, 1);
+
+            byte[] byteArrayOfXFrom = move.convertToOrder();
+            Console.WriteLine(byteArrayOfXFrom);
         }
         /// <summary>
         /// Test to check that the properties are correctly set when the TreeNode object is instantiated.

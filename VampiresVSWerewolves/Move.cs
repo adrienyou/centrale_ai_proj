@@ -37,9 +37,6 @@ namespace VampiresVSWerewolves
             get { return _YFrom; }
             set
             {
-                if (value == null && _YFrom == null)
-                    return;
-
                 _YFrom = value;
             }
         }
@@ -69,6 +66,17 @@ namespace VampiresVSWerewolves
             {
                 _YTo = value;
             }
+        }
+
+        public byte[] convertToOrder()
+        {
+            int[] ints = new int[5] {_XFrom, _YFrom, _Pop, _XTo, _YTo};
+            byte[] byteArray = new byte[5];
+            for (int i = 0; i < ints.Length; i++)
+            {
+                byteArray[i] = BitConverter.GetBytes(ints[i])[0];
+            }
+            return byteArray;
         }
     }
 }
