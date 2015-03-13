@@ -29,6 +29,7 @@ namespace VampiresVSWerewolves
             List<Cell> friendCells = state.GetCells(type);
             List<Cell> ennemyCells = state.GetCells(ennemyType);
 
+            return null;
         }
 
         public HashSet<Move> getMoves(Cell cell, List<Cell> ennemyCells) {
