@@ -27,12 +27,14 @@ namespace UnitTesting
         public void ValueConstr_Test()
         {
             int value = 5;
-            TreeNode<int> t_value = new TreeNode<int>(value);
+            NodeState state = NodeState.Min;
+            TreeNode<int> t_value = new TreeNode<int>(value, state);
 
             Assert.IsNull(t_value.Parent);
             Assert.IsInstanceOfType(t_value.Children, typeof(TreeNodeList<int>));
             Assert.AreEqual<int>(0, t_value.Profondeur);
             Assert.AreEqual<int>(value, t_value.Value);
+            Assert.AreEqual<NodeState>(state, t_value.State);
         }
 
         /// <summary>
@@ -42,8 +44,9 @@ namespace UnitTesting
         public void FullConstr_Test()
         {
             int value = 5;
-            
-            TreeNode<int> t_racine = new TreeNode<int>(value);
+            // Nodeconstructed as root --> with State
+            TreeNode<int> t_racine = new TreeNode<int>(value, NodeState.Max);
+            // Node constructed with parent --> State is inferred
             TreeNode<int> t_full = new TreeNode<int>(value, t_racine);
 
             Assert.IsNotNull(t_full.Parent);
@@ -51,6 +54,7 @@ namespace UnitTesting
             Assert.IsInstanceOfType(t_full.Children, typeof(TreeNodeList<int>));
             Assert.AreEqual<int>(t_racine.Profondeur + 1, t_full.Profondeur);
             Assert.AreEqual<int>(value, t_full.Value);
+            Assert.AreNotEqual<NodeState>(t_racine.State, t_full.State);
 
             //Create an array of the children, and take the first one.
             TreeNode<int> [] a_racine = t_racine.Children.ToArray();

@@ -21,6 +21,7 @@ namespace ArtificialIntelligence.Tree
         {
             base.Add(Node);
             Node.Parent = _Parent;
+            Node.State = _Parent.State == NodeState.Max ? NodeState.Min : NodeState.Max;
             return Node;
         }
 
