@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ArtificialIntelligence.Tree;
 using VampiresVSWerewolves;
+using System.Collections.Generic;
 
 namespace UnitTesting
 {
@@ -47,16 +48,17 @@ namespace UnitTesting
             Position posFrom = new Position(0, 0);
             Position posTo = new Position(1, 1);
             Move move = new Move(posFrom, posTo, 1);
+            List<Move> moves = new List<Move>();
+            moves.Add(move);
 
             NodeState state = NodeState.Min;
-            TreeNode<int> t_value = new TreeNode<int>(value, move, state);
+            TreeNode<int> t_value = new TreeNode<int>(value, moves, state);
 
             Assert.IsNull(t_value.Parent);
             Assert.IsInstanceOfType(t_value.Children, typeof(TreeNodeList<int>));
             Assert.AreEqual<int>(0, t_value.Profondeur);
             Assert.AreEqual<int>(value, t_value.Value);
             Assert.AreEqual<NodeState>(state, t_value.State);
-            Assert.AreEqual<int>(t_value.Move.PosFrom.X, 0);
         }
 
         /// <summary>
@@ -69,10 +71,13 @@ namespace UnitTesting
             Position posFrom = new Position(0, 0);
             Position posTo = new Position(1, 1);
             Move move = new Move(posFrom, posTo, 1);
+            List<Move> moves = new List<Move>();
+            moves.Add(move);
+
             // Nodeconstructed as root --> with State
-            TreeNode<int> t_racine = new TreeNode<int>(value, move, NodeState.Max);
+            TreeNode<int> t_racine = new TreeNode<int>(value, moves, NodeState.Max);
             // Node constructed with parent --> State is inferred
-            TreeNode<int> t_full = new TreeNode<int>(value, move, t_racine);
+            TreeNode<int> t_full = new TreeNode<int>(value, moves, t_racine);
 
             Assert.IsNotNull(t_full.Parent);
             Assert.AreEqual<TreeNode<int>>(t_racine, t_full.Parent);
