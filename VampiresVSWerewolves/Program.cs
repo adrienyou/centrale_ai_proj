@@ -113,7 +113,7 @@ namespace VampiresVSWerewolves
             */
             
             Engine engine = new Engine();
-
+            CellType friendlyType = state.Map.FriendlyType;
 
             /****************** PARTIE ******************/
             while (true)
@@ -144,33 +144,88 @@ namespace VampiresVSWerewolves
 
                     //Buffer contient read = n * 5 5-tuplets
                     //n est le nombre de changements
-
                     //Modifiez votre grille ici en fonction des changements
                     state.Update(read, buffer);
                 }
 
-                //ICI FAITES VOS CALCULS
-                byte[] response = new byte[5];
-                //créez un byte[] contenant tout ce qu'il faut
-                List<Move> moves = engine.RandomSuccessor(state);
-                Move move = moves[0];
-
-                Console.WriteLine("Position From: " + move.PosFrom);
-                Console.WriteLine("Position To: " + move.PosTo);
-                Console.WriteLine("Pop: " + move.Pop);
-
-                response = move.convertToOrder();
-
-                socket.Send(Encoding.ASCII.GetBytes("MOV"));
-                socket.Send(new byte[] { (byte)(response.Length / 5) });
-                socket.Send(response);
- 
-                //socket.Send(response);
-
+                useRandom(socket, engine, state);
+                //useNotRandom(socket, engine, state, friendlyType);
             }
 
             socket.Close();
             socket.Dispose();
         }
+
+        public static void useRandom(Socket socket, Engine engine, State state)
+        {
+            byte[] response = new byte[5];
+
+            List<Move> moves = engine.RandomSuccessor(state);
+            Move move = moves[0];
+
+            //Default value
+            string startBuffer = "MOV";
+
+/*  En fait, envoyer ATK fait planter, meme si il y a bien un ennemi
+ *  sur la case d'arriver.
+ *  Donc pas besoin
+ * 
+ * if (state.Cells.ContainsKey(move.PosTo.Stringify()))
+            {
+                Cell cell = (Cell)state.Cells[move.PosTo.Stringify()];
+
+                // We have to get the type of the cell we're going to, in order to know what string byte to use ("MOV" or "ATK")
+                CellType goToCellType = cell.Type;
+
+                if (friendlyType == CellType.Vampires)
+                {
+                    if (goToCellType == CellType.Humans || goToCellType == CellType.Werewolves)
+                    {
+                        startBuffer = "ATK";
+                    }
+                }
+                // Means we are Werewolves
+                else
+                {
+                    if (goToCellType == CellType.Humans || goToCellType == CellType.Vampires)
+                    {
+                        startBuffer = "ATK";
+                    }
+                }
+            }
+*/
+
+            Console.WriteLine("Position From: " + move.PosFrom.Stringify());
+            Console.WriteLine("Position To: " + move.PosTo.Stringify());
+            Console.WriteLine("Pop: " + move.Pop.ToString());
+
+            response = move.convertToOrder();
+
+            socket.Send(Encoding.ASCII.GetBytes(startBuffer));
+            socket.Send(new byte[] { (byte)(response.Length / 5) });
+            socket.Send(response);
+        } 
+
+        public static void useNotRandom(Socket socket, Engine engine, State state, CellType friendlyType)
+        {
+            /*
+            
+            //Calculate moves
+            byte[] response = new byte[moves.number * 5];
+
+            //Default value
+            string startBuffer = "MOV";
+
+            foreach (Move move in moves)
+            {
+                response.add(move.convertToOrder);
+            }
+
+            socket.Send(Encoding.ASCII.GetBytes(startBuffer));
+            socket.Send(new byte[] { (byte)(response.Length / 5) });
+            socket.Send(response);
+            
+             */
+        } 
     }
 }

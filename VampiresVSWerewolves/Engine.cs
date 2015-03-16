@@ -67,15 +67,20 @@ namespace VampiresVSWerewolves
 
                     if (ToX == 2) { ToX = -1; };
                     if (ToY == 2) { ToY = -1; };
+                    // Avoid not moving
+                    if (ToX == 0 && ToY == 0) { ToX = 1; };
 
                     Position randomPosition = new Position(ToX + cell.Position.X, ToY + cell.Position.Y);
 
-                    isNewPositionOK = randomPosition.isValid(state.Map);
+                    if (randomPosition.isValid(state.Map))
+                    {
+                        // The move is all the pop, from old cell to new cell
+                        Move randomMove = new Move(cell.Position, randomPosition, cell.Pop);
 
-                    // The move is all the pop, from old cell to new cell
-                    Move randomMove = new Move(cell.Position, randomPosition, cell.Pop);
+                        moves.Add(randomMove);
 
-                    moves.Add(randomMove);
+                        isNewPositionOK = true;
+                    }
                 }
             }
 

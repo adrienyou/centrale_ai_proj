@@ -145,7 +145,12 @@ namespace VampiresVSWerewolves
                     if (newType != CellType.Empty)
                     {
                         GetCells(newType).Add(cell);
-                    }  
+                    }
+                    // If newType == Empty, we have to remove the cell from the Cells hash
+                    else
+                    {
+                        _Cells.Remove(pos_str);
+                    }
                 } 
             }
             else
