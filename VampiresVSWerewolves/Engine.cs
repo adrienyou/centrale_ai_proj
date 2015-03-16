@@ -215,12 +215,6 @@ namespace VampiresVSWerewolves
             return moves;
         }
 
-        public List<Move> AlphaBeta()
-        {
-            List<Move> whatYouShouldReturn = new List<Move>();
-            return whatYouShouldReturn;
-        }
-
         public int AlphaBeta(int depth, int alpha, int beta, TreeNode<State> parentNode, CellType currentPlayer)
         {
             State parentState = parentNode.Value;

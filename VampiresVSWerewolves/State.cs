@@ -415,7 +415,7 @@ namespace VampiresVSWerewolves
             }
             else
             {
-                return _VampireCells
+                return _VampireCells;
             }
         }
 
