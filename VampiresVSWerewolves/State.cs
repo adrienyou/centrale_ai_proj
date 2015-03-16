@@ -27,7 +27,7 @@ namespace VampiresVSWerewolves
             _WerewolvesCells = new List<Cell>();
 
             _Cells = new Hashtable();
-            _Proba = null;
+            _Proba = 0;
         }
 
         public void Update(int read, byte[] buffer)
@@ -251,8 +251,6 @@ namespace VampiresVSWerewolves
             get { return _Proba; }
             set
             {
-                if (value == null)
-                    return;
                 _Proba = value;
             }
         }
