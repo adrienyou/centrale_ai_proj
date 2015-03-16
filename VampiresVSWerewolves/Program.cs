@@ -149,7 +149,7 @@ namespace VampiresVSWerewolves
                 }
 
                 useRandom(socket, engine, state);
-                //useNotRandom(socket, engine, state, friendlyType);
+                //useNotRandom(socket, engine, state);
             }
 
             socket.Close();
@@ -206,26 +206,21 @@ namespace VampiresVSWerewolves
             socket.Send(response);
         } 
 
-        public static void useNotRandom(Socket socket, Engine engine, State state, CellType friendlyType)
-        {
-            /*
-            
+        public static void useNotRandom(Socket socket, Engine engine, State state)
+        {            
             //Calculate moves
-            byte[] response = new byte[moves.number * 5];
+            List<Move> moves = engine.AlphaBeta();
 
             //Default value
             string startBuffer = "MOV";
 
-            foreach (Move move in moves)
-            {
-                response.add(move.convertToOrder);
-            }
-
             socket.Send(Encoding.ASCII.GetBytes(startBuffer));
-            socket.Send(new byte[] { (byte)(response.Length / 5) });
+            socket.Send(new byte[] { (byte)(moves.Count / 5) });
+
+            byte[] response = Move.convertToByteArray(moves);
+
             socket.Send(response);
             
-             */
         } 
     }
 }

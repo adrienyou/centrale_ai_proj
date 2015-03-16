@@ -19,7 +19,6 @@ namespace VampiresVSWerewolves
         {
             // Copy the parent in order to use it to generate all successors
             
-
             CellType ennemyType = CellType.Vampires;
             if (type == CellType.Vampires)
             {
@@ -180,5 +179,10 @@ namespace VampiresVSWerewolves
             return moves;
         }
 
+        public List<Move> AlphaBeta()
+        {
+            List<Move> whatYouShouldReturn = new List<Move>();
+            return whatYouShouldReturn;
+        }
     }
 }

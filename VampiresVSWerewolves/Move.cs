@@ -56,5 +56,21 @@ namespace VampiresVSWerewolves
             }
             return byteArray;
         }
+
+        public static byte[] convertToByteArray(List<Move> moves)
+        {
+            byte[] byteArray = new byte[5 * moves.Count];
+
+            foreach (Move move in moves)
+            {
+                int[] ints = new int[5] { move.PosFrom.X, move.PosFrom.Y, move.Pop, move.PosTo.X, move.PosTo.Y };
+                for (int i = 0; i < ints.Length; i++)
+                {
+                    byteArray[i] = BitConverter.GetBytes(ints[i])[0];
+                }
+            }
+
+            return byteArray;
+        }
     }
 }
