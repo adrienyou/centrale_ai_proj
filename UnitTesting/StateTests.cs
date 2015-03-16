@@ -14,7 +14,7 @@ namespace UnitTesting
         [TestMethod]
         public void UpdateCell_Test()
         {
-            Map map = new Map(10, 10);
+            Map map = new Map(10, 10, CellType.Vampires);
             State state = new State(map);
 
             List<State> empty_list = new List<State>();
