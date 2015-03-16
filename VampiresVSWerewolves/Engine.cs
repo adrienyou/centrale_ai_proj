@@ -15,11 +15,8 @@ namespace VampiresVSWerewolves
 
         }
 
-        public List<State> Successor(State state, CellType type) 
+        public IEnumerable<Tuple<List<Move>, State>> Successor(State state, CellType type) 
         {
-            // Copy the parent in order to use it to generate all successors
-            
-
             CellType ennemyType = CellType.Vampires;
             if (type == CellType.Vampires)
             {
@@ -29,7 +26,20 @@ namespace VampiresVSWerewolves
             List<Cell> friendCells = state.GetCells(type);
             List<Cell> ennemyCells = state.GetCells(ennemyType);
 
-            return null;
+            // List of all possible moves for each of our goup of units
+            List<HashSet<Move>> listOfMoves = new List<HashSet<Move>>();
+
+            foreach (Cell cell in friendCells) {
+                listOfMoves.Add(getMoves(cell, ennemyCells));
+            }
+
+            foreach (List<Move> moves in GetCombinations(listOfMoves, new List<Move>())) {
+                // We have a list of move, we can now generate de state en yield it to the alphabeta method
+                foreach (State childState in GenerateStates(state, moves, type)) {
+                    Tuple<List<Move>, State> result = new Tuple<List<Move>, State>(moves, childState);
+                    yield return result;
+                }
+            }
         }
 
         /*
@@ -137,6 +147,30 @@ namespace VampiresVSWerewolves
             {
                 yield return selectedMoves.ToList();
             }
+        }
+
+        public List<State> GenerateStates(State currentState, List<Move> moves, CellType type) {
+            // We a set of Moves, this function yields all States that can be created with those moves
+            // starting from the current state.
+            // type is the CellType of the units we are moving (our type)
+            List<State> states = new List<State>();
+            for (int i = 0; i < moves.Count; i++) {
+                Move move = moves[i];
+                // moves.Reverse<Move>().Take(moves.Count-1);
+                if (moves.Count == 1)
+                {
+                    return currentState.Move(move, type);
+                }
+                else
+                {
+                    foreach (State state in currentState.Move(move, type)) {
+                        List<Move> leftMoves = (List<Move>)moves.Reverse<Move>().Take(moves.Count - 1);
+                        states.AddRange(GenerateStates(state, leftMoves, type));
+                    }
+                    return states;
+                }
+            }
+            return states;
         }
 
         public List<Move> RandomSuccessor(State state)
