@@ -13,7 +13,7 @@ namespace VampiresVSWerewolves
         private TreeNode<T> _Parent;
         private TreeNodeList<T> _Children;
         private T _Value;
-        private Move _Move;
+        private List<Move> _Moves;
         private int _Profondeur;
         private NodeState _State;
 
@@ -25,20 +25,20 @@ namespace VampiresVSWerewolves
             _Profondeur = 0;
         }
 
-        public TreeNode(T Value, Move Move, NodeState State)
+        public TreeNode(T Value, List<Move> Moves, NodeState State)
         {
             _Value = Value;
-            _Move = Move;
+            _Moves = Moves;
             _Parent = null;
             _Children = new TreeNodeList<T>(this);
             _Profondeur = 0;
             _State = State;
         }
 
-        public TreeNode(T Value, Move Move, TreeNode<T> Parent)
+        public TreeNode(T Value, List<Move> Moves, TreeNode<T> Parent)
         {
             _Value = Value;
-            _Move = Move;
+            _Moves = Moves;
             _State = Parent.State == NodeState.Max ? NodeState.Min : NodeState.Max;
             _Parent = Parent;
             _Children = new TreeNodeList<T>(this);
@@ -70,14 +70,14 @@ namespace VampiresVSWerewolves
             }
         }
 
-        public Move Move
+        public List<Move> Moves
         {
-            get { return _Move; }
+            get { return _Moves; }
             set
             {
                 if (value == null)
                     return;
-                _Move = value;
+                _Moves = value;
             }
         }
 
