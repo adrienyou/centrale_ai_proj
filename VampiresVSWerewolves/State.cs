@@ -74,11 +74,12 @@ namespace VampiresVSWerewolves
 
                 this.UpdateCell(x, y, cellType, pop);
 
-                Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
+                /*Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
                 Console.WriteLine("Y: " + Convert.ToString(buffer[5 * i + 1]));
                 Console.WriteLine("humains: " + Convert.ToString(buffer[5 * i + 2]));
                 Console.WriteLine("vampires: " + Convert.ToString(buffer[5 * i + 3]));
                 Console.WriteLine("loups: " + Convert.ToString(buffer[5 * i + 4]));
+                 */
             }
         }
 
@@ -113,11 +114,12 @@ namespace VampiresVSWerewolves
 
                 this.UpdateCell(x, y, cellType, pop);
 
-                Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
+                /*Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
                 Console.WriteLine("Y: " + Convert.ToString(buffer[5 * i + 1]));
                 Console.WriteLine("humains: " + Convert.ToString(buffer[5 * i + 2]));
                 Console.WriteLine("vampires: " + Convert.ToString(buffer[5 * i + 3]));
                 Console.WriteLine("loups: " + Convert.ToString(buffer[5 * i + 4]));
+                 */ 
             }
         }
 
@@ -138,7 +140,12 @@ namespace VampiresVSWerewolves
                 if (newType != oldType)
                 {
                     GetCells(oldType).Remove(cell);
-                    GetCells(newType).Add(cell);
+
+                    // Because we don't have an _EmptyCells list
+                    if (newType != CellType.Empty)
+                    {
+                        GetCells(newType).Add(cell);
+                    }  
                 } 
             }
             else
