@@ -32,18 +32,91 @@ namespace VampiresVSWerewolves
             return null;
         }
 
-        public HashSet<Move> getMoves(Cell cell, List<Cell> ennemyCells) {
+        /*
+            int x = Math.Max(cell.Position.X + Math.Max(Math.Min(cell.Position.X, 1), -1), 0);
+            int y = Math.Max(cell.Position.Y + Math.Max(Math.Min(cell.Position.Y, 1), -1), 0);
+            Position posTo = new Position(x, y);
+        */
+        public HashSet<Move> getMoves(Cell cell, List<Cell> ennemyCells, List<Cell> humanCells, Map map) 
+        {
             HashSet<Move> moves = new HashSet<Move>();
             foreach (Cell ennemyCell in ennemyCells)
             {
-                int x = Math.Max(cell.Position.X + Math.Max(Math.Min(cell.Position.X, 1), -1), 0);
-                int y = Math.Max(cell.Position.Y + Math.Max(Math.Min(cell.Position.Y, 1), -1), 0);
-                Position posTo = new Position(x, y);
-                Move move = new Move(cell.Position, posTo, cell.Pop);
-                moves.Add(move);
+                List<Position> positions = getMoveTo(cell.Position, ennemyCell.Position, map);
+
+                foreach (Position positionAtt in positions)
+                {
+                    Move moveAtt = new Move(cell.Position, positionAtt, cell.Pop);                   
+                    moves.Add(moveAtt);
+
+                    Position positionDef = new Position(-positionAtt.X, -positionAtt.Y);
+                    if(positionDef.isValid(map))
+                    {
+                        Move moveDef = new Move(cell.Position, positionDef, cell.Pop);
+                        moves.Add(moveDef);
+                    }
+                }
+            }
+
+            foreach (Cell humanCell in humanCells)
+            {
+                List<Position> positions = getMoveTo(cell.Position, humanCell.Position, map);
+
+                foreach (Position positionHum in positions)
+                {
+                    Move moveHum = new Move(cell.Position, positionHum, cell.Pop);
+                    moves.Add(moveHum);
+
+                }
             }
 
             return moves;
+        }
+
+        // Calculate the List<Position> where a should go to get close to b (either modifying x, modifying y or modifying both)
+        public static List<Position> getMoveTo(Position a, Position b, Map map)
+        {
+            List<Position> positions = new List<Position>();
+
+            int xTo = a.X;
+            int yTo = a.Y;
+
+            if (a.X < b.X)
+            {
+                xTo = a.X + 1;
+            }
+            else if (a.X > b.X)
+            {
+                xTo = a.X - 1;
+            }
+
+            if (a.Y < b.Y)
+            {
+                yTo = a.Y + 1;
+            }
+            else if (a.Y > b.Y)
+            {
+                yTo = a.Y - 1;
+            }
+
+            Position posX = new Position(xTo, a.Y);
+            Position posY = new Position(a.X, yTo);
+            Position posXY = new Position(xTo, yTo);
+
+            if (posX.isValid(map))
+            {
+                positions.Add(posX);
+            }
+            if (posY.isValid(map))
+            {
+                positions.Add(posY);
+            }
+            if (posXY.isValid(map))
+            {
+                positions.Add(posXY);
+            }
+
+            return positions;
         }
 
         static IEnumerable<List<Move>> GetCombinations(IEnumerable<HashSet<Move>> lists, IEnumerable<Move> selectedMoves)
@@ -106,5 +179,6 @@ namespace VampiresVSWerewolves
 
             return moves;
         }
+
     }
 }
