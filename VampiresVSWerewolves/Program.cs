@@ -50,13 +50,13 @@ namespace VampiresVSWerewolves
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "SET")
                 throw new Exception("Erreur, attendu: SET");
 
-            int width = Convert.ToInt16(buffer[4]); // Nombre de colonnes
+            /*int width = Convert.ToInt16(buffer[4]); // Nombre de colonnes
             int height = Convert.ToInt16(buffer[3]); // Nombre de lignes
             Map map = new Map(height, width);
-
+            
             Console.WriteLine("Row number: " + Convert.ToString(map.Height));
             Console.WriteLine("Column number: " + Convert.ToString(map.Width));
-
+            */
             //On recoit HUM, cad les cases où sont placées les humains
             Console.WriteLine("Receiving HUM...");
             while (socket.Available < 4)
@@ -95,7 +95,8 @@ namespace VampiresVSWerewolves
             //Read contient 5x le nombre de 5-tuplets.
             //Buffer contient la liste des changements
             Console.WriteLine("READ: " + Convert.ToString(read));
-
+            
+           /*
             State state = new State(map);
             state.Update(read, buffer);
 
@@ -110,6 +111,9 @@ namespace VampiresVSWerewolves
             Console.WriteLine("TEST MOVE CONVERT: " + resConvert[4]);
             
             Engine engine = new Engine();
+            * 
+            * 
+            * /
 
             /****************** PARTIE ******************/
             while (true)

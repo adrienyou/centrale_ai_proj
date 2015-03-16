@@ -22,6 +22,11 @@ namespace VampiresVSWerewolves
             return (p1._X == p2._X) && (p1._Y == p2._Y);
         }
 
+        public bool isValid(Map map)
+        {
+            return 0 <= _X && _X < map.Width && 0 <= Y && _Y < map.Height;
+        }
+
         public string Stringify()
         {
             return string.Format("{0},{1}", _X, _Y);

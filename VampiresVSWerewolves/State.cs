@@ -195,6 +195,7 @@ namespace VampiresVSWerewolves
             get { return _Cells; }
         }
 
+        // Return the list of cells of a given type
         public List<Cell> GetCells(CellType type) {
             if (type == CellType.Humans) {
                 return _HumanCells;
@@ -209,5 +210,12 @@ namespace VampiresVSWerewolves
             }
             return null;
         }
+
+        // Return the list of friendly cells
+        public List<Cell> GetFriendlyCells()
+        {
+            return GetCells(_Map.FriendlyType);
+        }
+
     }
 }
