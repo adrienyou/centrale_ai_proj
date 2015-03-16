@@ -117,7 +117,5 @@ namespace VampiresVSWerewolves
             }
             return alpha;
         }
-
-
     }
 }

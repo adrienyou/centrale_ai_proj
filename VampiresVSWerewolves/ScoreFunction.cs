@@ -18,25 +18,28 @@ namespace VampiresVSWerewolves
 
             int f2 =   (Distances from each ENNEMIES groups to their CLOSEST SMALLER HUMAN group) 
                                     - moy (Distances from each of our groups to their CLOSEST SMALLER HUMAN group) )
-            int w2 = 5;
+            int w2 = 8;
 
+            
             // How many weaker ennemies groups are close * how many ennemies to kill  (distance function is in Position.cs)
             // Pour chacun de mes groupes, qui est le groupe ennemi le plus proche ? 
-            //Est-ce que je le défonce (+) *nb ennmis ? Il me défonce (-)*nb mes monstres ? Bataille aléatoire (0) ? 
+            //Est-ce que je le défonce (+) * nb ennmis ? Il me défonce (-) * nb mes monstres ? Bataille aléatoire (0) ? 
 
-            int f6 = sum (Distances from each of our groups to their CLOSEST SMALLER x 1.5 ENNEMIES group) 
-                     - sum (Distances from each of Ennemies groups to their CLOSEST SMALLER x 1.5 group of OUR monsters) 
-            int w6 = -2;
+            int f3 = ;
+            int w3 = 4;
+
 
             // We won because we have more monsters !
             bool a7 = nbOurMonsters >= 1.5 * (nbEnnemies + nbHumans);
             int f7 = a7 ? 1 : 0;  // convert boolean to int
             int w7 = 1000;
 
+
             // We lost because ennemies have more monsters
             bool a8 = nbEnnemies >= 1.5 * (nbOurMonsters + nbHumans);
             int f8 = a8 ? 1 : 0;  // convert boolean to int
             int w8 = -1000;
+
 
             // We won because all ennemies were killed !
             bool a9 = nbOurMonsters==0;
