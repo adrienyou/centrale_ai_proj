@@ -26,9 +26,11 @@ namespace UnitTesting
         [TestMethod]
         public void Move_Test()
         {
-            Move move = new Move(0, 0, 1, 1, 1);
+            Position posFrom = new Position(0, 0);
+            Position posTo = new Position(1, 1);
+            Move move = new Move(posFrom, posTo, 1);
 
-            Assert.AreEqual<int>(move.XFrom, 0);
+            Assert.AreEqual<int>(move.PosFrom.X, 0);
             Assert.AreEqual<int>(move.Pop, 1);
 
             byte[] byteArrayOfXFrom = move.convertToOrder();
@@ -41,7 +43,11 @@ namespace UnitTesting
         public void ValueConstr_Test()
         {
             int value = 5;
-            Move move = new Move(0, 0, 1, 1, 1);
+
+            Position posFrom = new Position(0, 0);
+            Position posTo = new Position(1, 1);
+            Move move = new Move(posFrom, posTo, 1);
+
             NodeState state = NodeState.Min;
             TreeNode<int> t_value = new TreeNode<int>(value, move, state);
 
@@ -50,7 +56,7 @@ namespace UnitTesting
             Assert.AreEqual<int>(0, t_value.Profondeur);
             Assert.AreEqual<int>(value, t_value.Value);
             Assert.AreEqual<NodeState>(state, t_value.State);
-            Assert.AreEqual<int>(t_value.Move.XFrom, 0);
+            Assert.AreEqual<int>(t_value.Move.PosFrom.X, 0);
         }
 
         /// <summary>
@@ -60,7 +66,9 @@ namespace UnitTesting
         public void FullConstr_Test()
         {
             int value = 5;
-            Move move = new Move(0, 0, 1, 1, 1);
+            Position posFrom = new Position(0, 0);
+            Position posTo = new Position(1, 1);
+            Move move = new Move(posFrom, posTo, 1);
             // Nodeconstructed as root --> with State
             TreeNode<int> t_racine = new TreeNode<int>(value, move, NodeState.Max);
             // Node constructed with parent --> State is inferred

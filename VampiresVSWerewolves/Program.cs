@@ -50,13 +50,14 @@ namespace VampiresVSWerewolves
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "SET")
                 throw new Exception("Erreur, attendu: SET");
 
-            /*int width = Convert.ToInt16(buffer[4]); // Nombre de colonnes
-            int height = Convert.ToInt16(buffer[3]); // Nombre de lignes
-            Map map = new Map(height, width);
+            int mapWidth = Convert.ToInt16(buffer[4]); // Nombre de colonnes
+            int mapHeight = Convert.ToInt16(buffer[3]); // Nombre de lignes
+            //Map map = new Map(height, width);
             
-            Console.WriteLine("Row number: " + Convert.ToString(map.Height));
+/*            Console.WriteLine("Row number: " + Convert.ToString(map.Height));
             Console.WriteLine("Column number: " + Convert.ToString(map.Width));
-            */
+ */           
+
             //On recoit HUM, cad les cases où sont placées les humains
             Console.WriteLine("Receiving HUM...");
             while (socket.Available < 4)

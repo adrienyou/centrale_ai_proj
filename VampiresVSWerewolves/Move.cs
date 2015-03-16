@@ -8,36 +8,32 @@ namespace VampiresVSWerewolves
 {
     public class Move
     {
-        private int _XFrom;
-        private int _YFrom;
+        private Position _PosFrom;
+        private Position _PosTo;
         private int _Pop;
-        private int _XTo;
-        private int _YTo;
 
-        public Move(int x, int y, int n, int xx, int yy)
+        public Move(Position PosFrom, Position PosTo, int Pop)
         {
-            _XFrom = x;
-            _YFrom = y;
-            _Pop = n;
-            _XTo = xx;
-            _YTo = yy;
+            _PosFrom = PosFrom;
+            _PosTo = PosTo;
+            _Pop = Pop;
         }
 
-        public int XFrom
+        public Position PosFrom
         {
-            get { return _XFrom; }
+            get { return _PosFrom; }
             set
             {
-                _XFrom = value;
+                _PosFrom = value;
             }
         }
 
-        public int YFrom
+        public Position PosTo
         {
-            get { return _YFrom; }
+            get { return _PosTo; }
             set
             {
-                _YFrom = value;
+                _PosTo = value;
             }
         }
 
@@ -50,27 +46,9 @@ namespace VampiresVSWerewolves
             }
         }
 
-        public int XTo
-        {
-            get { return _XTo; }
-            set
-            {
-                _XTo = value;
-            }
-        }
-
-        public int YTo
-        {
-            get { return _YTo; }
-            set
-            {
-                _YTo = value;
-            }
-        }
-
         public byte[] convertToOrder()
         {
-            int[] ints = new int[5] {_XFrom, _YFrom, _Pop, _XTo, _YTo};
+            int[] ints = new int[5] {_PosFrom.X, _PosFrom.Y, _Pop, _PosTo.X, _PosTo.Y};
             byte[] byteArray = new byte[5];
             for (int i = 0; i < ints.Length; i++)
             {

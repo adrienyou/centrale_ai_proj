@@ -38,8 +38,8 @@ namespace VampiresVSWerewolves
             {
                 int x = Math.Max(cell.Position.X + Math.Max(Math.Min(cell.Position.X, 1), -1), 0);
                 int y = Math.Max(cell.Position.Y + Math.Max(Math.Min(cell.Position.Y, 1), -1), 0);
-                Position pos = new Position(x, y);
-                Move move = new Move(cell.Position.X, cell.Position.Y, cell.Pop, x, y);
+                Position posTo = new Position(x, y);
+                Move move = new Move(cell.Position, posTo, cell.Pop);
                 moves.Add(move);
             }
 
@@ -73,7 +73,7 @@ namespace VampiresVSWerewolves
                     isNewPositionOK = randomPosition.isValid(state.Map);
 
                     // The move is all the pop, from old cell to new cell
-                    Move randomMove = new Move(cell.Position.X, cell.Position.Y, randomPosition.X, randomPosition.Y, cell.Pop);
+                    Move randomMove = new Move(cell.Position, randomPosition, cell.Pop);
 
                     moves.Add(randomMove);
                 }

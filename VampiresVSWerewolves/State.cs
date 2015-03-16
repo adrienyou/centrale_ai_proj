@@ -27,7 +27,7 @@ namespace VampiresVSWerewolves
             _WerewolvesCells = new List<Cell>();
 
             _Cells = new Hashtable();
-            _Proba = null;
+            _Proba = 0;
         }
 
         public void Update(int read, byte[] buffer)
@@ -105,24 +105,22 @@ namespace VampiresVSWerewolves
             // Can return several states because of the fights that give several results...
 
             List<State> states = null;
-            
-            Position posTo = new Position(move.XTo, move.YTo);
 
             // If the target cell contains nothing
-            if (!_Cells.ContainsKey(posTo.Stringify()))
+            if (!_Cells.ContainsKey(move.PosTo.Stringify()))
             {
                 State new_state = this.DeepCopy();
-                new_state.UpdateCell(move.XTo, move.YTo, type, move.Pop);
+                new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
                 states.Add(new_state);
             }
             else {
-                Cell cell = (Cell)_Cells[posTo.Stringify()];
+                Cell cell = (Cell)_Cells[move.PosTo.Stringify()];
 
                 // If the target cell contains units from the same type
                 if (cell.Type == type)
                 {
                     State new_state = this.DeepCopy();
-                    new_state.UpdateCell(posTo.X, posTo.Y, type, cell.Pop+move.Pop);
+                    new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, cell.Pop + move.Pop);
                     states.Add(new_state);
                 }
                 else
@@ -134,7 +132,7 @@ namespace VampiresVSWerewolves
                         if (cell.Pop <= move.Pop)
                         {
                             State new_state = this.DeepCopy();
-                            new_state.UpdateCell(posTo.X, posTo.Y, type, cell.Pop + move.Pop);
+                            new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, cell.Pop + move.Pop);
                             states.Add(new_state);
                         }
                         else
@@ -147,7 +145,7 @@ namespace VampiresVSWerewolves
                             for (int i = 0; i <= S; i++)
                             {
                                 State new_state = this.DeepCopy();
-                                new_state.UpdateCell(posTo.X, posTo.Y, type, i);
+                                new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, i);
 
                                 // Compute the probability of this state
                                 // TO DO: improve the computation (very heavy...)
@@ -162,7 +160,7 @@ namespace VampiresVSWerewolves
                             for (int i = 0; i <= cell.Pop; i++)
                             {
                                 State new_state = this.DeepCopy();
-                                new_state.UpdateCell(posTo.X, posTo.Y, type, i);
+                                new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, i);
 
                                 // Compute the probability of this state
                                 // TO DO: improve the computation (very heavy...)
@@ -180,7 +178,7 @@ namespace VampiresVSWerewolves
                         if (cell.Pop <= 1.5*move.Pop)
                         {
                             State new_state = this.DeepCopy();
-                            new_state.UpdateCell(posTo.X, posTo.Y, type, move.Pop);
+                            new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
                         }
                         else
                         {
@@ -251,8 +249,6 @@ namespace VampiresVSWerewolves
             get { return _Proba; }
             set
             {
-                if (value == null)
-                    return;
                 _Proba = value;
             }
         }
