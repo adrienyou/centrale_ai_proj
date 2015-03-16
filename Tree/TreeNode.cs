@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VampiresVSWerewolves;
 
 namespace ArtificialIntelligence.Tree
 {
+    public enum NodeState { Max, Min }
+
     public class TreeNode<T>
     {
         private TreeNode<T> _Parent;
         private TreeNodeList<T> _Children;
         private T _Value;
+        private Move _Move;
         private int _Profondeur;
+        private NodeState _State;
 
         // Constructors for a TreeNode
         public TreeNode()
@@ -21,17 +26,21 @@ namespace ArtificialIntelligence.Tree
             _Profondeur = 0;
         }
 
-        public TreeNode(T Value)
+        public TreeNode(T Value, Move Move, NodeState State)
         {
             _Value = Value;
+            _Move = Move;
             _Parent = null;
             _Children = new TreeNodeList<T>(this);
             _Profondeur = 0;
+            _State = State;
         }
 
-        public TreeNode(T Value, TreeNode<T> Parent)
+        public TreeNode(T Value, Move Move, TreeNode<T> Parent)
         {
             _Value = Value;
+            _Move = Move;
+            _State = Parent.State == NodeState.Max ? NodeState.Min : NodeState.Max;
             _Parent = Parent;
             _Children = new TreeNodeList<T>(this);
             _Profondeur = Parent.Profondeur + 1;
@@ -48,6 +57,28 @@ namespace ArtificialIntelligence.Tree
                 if (value == null)
                     return;
                 _Parent = value; 
+            }
+        }
+
+        public NodeState State
+        {
+            get { return _State; }
+            set
+            {
+                if (value == null)
+                    return;
+                _State = value;
+            }
+        }
+
+        public Move Move
+        {
+            get { return _Move; }
+            set
+            {
+                if (value == null)
+                    return;
+                _Move = value;
             }
         }
 

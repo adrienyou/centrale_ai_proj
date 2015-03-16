@@ -43,6 +43,12 @@
     <Compile Include="TreeNode.cs" />
     <Compile Include="TreeNodeList.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VampiresVSWerewolves\Controller.csproj">
+      <Project>{504bbde8-c387-441f-a340-08279c78f4ad}</Project>
+      <Name>Controller</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
