@@ -42,15 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Alphabeta.cs" />
-    <Compile Include="Cell.cs" />
     <Compile Include="ScoreFunction.cs" />
-=======
     <Compile Include="Move.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Engine.cs" />
->>>>>>> origin/master
     <Compile Include="State.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Position.cs" />
