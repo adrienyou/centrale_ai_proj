@@ -40,6 +40,13 @@ namespace VampiresVSWerewolves
             return new Cell(_Position.X, _Position.Y, _Type, _Pop);
         }
 
+        public int distanceToCell(Cell cell)
+        {
+            // Distance to another cell in termes of turns is the big size of rectangle
+            int d = Math.Max(Math.Abs(this.Position.X - cell.Position.X), Math.Abs(this.Position.Y - cell.Position.Y));
+            return d;
+        }
+
         // Fields accessors
         public CellType Type
         {
