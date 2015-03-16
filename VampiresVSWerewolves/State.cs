@@ -304,6 +304,67 @@ namespace VampiresVSWerewolves
             else return 1;
         }
 
+        // Sort list of cells from closest to centerCell to furthest
+        public static void sortCellsByDistance(Cell centerCell, List<Cell> cells)
+        { 
+            cells.Sort((a, b) => a.distanceToCell(centerCell).CompareTo(b.distanceToCell(centerCell))); 
+        }
+
+        public int HumanProximity()
+        {
+            int totalCount = 0;
+            foreach (Cell hCell in _HumanCells)
+            {
+                int iv = 0;
+                int iw = 0;
+                int countV = 0;
+                int countW = 0;
+
+                State.sortCellsByDistance(hCell, _VampireCells);
+                State.sortCellsByDistance(hCell, _WerewolvesCells);
+
+                while (countV < hCell.Pop && countW < hCell.Pop && iv < _VampireCells.Count && iw < _WerewolvesCells.Count)
+                {
+                    Cell vCell = _VampireCells[iv];
+                    Cell wCell = _WerewolvesCells[iw];
+                    if (hCell.distanceToCell(_VampireCells[iv]) < hCell.distanceToCell(_WerewolvesCells[iw]))
+                    {
+                        countV += vCell.Pop;
+                        iv++;
+                    }
+                    else
+                    {
+                        countW += wCell.Pop;
+                        iw++;
+                    }
+                }
+                // If our race is likely to win, we add the number of humans to the total count
+                if (_Map.FriendlyType == CellType.Vampires)
+                {
+                    if (countV > countW)
+                    {
+                        totalCount += hCell.Pop;
+                    }
+                    else
+                    {
+                        totalCount -= hCell.Pop;
+                    }
+                }
+                else
+                {
+                    if (countV < countW)
+                    {
+                        totalCount -= hCell.Pop;
+                    }
+                    else
+                    {
+                        totalCount += hCell.Pop;
+                    }
+                }
+            }
+            return totalCount;
+        }
+
         // Accessors
         public Map Map
         {
@@ -343,6 +404,19 @@ namespace VampiresVSWerewolves
         public List<Cell> GetFriendlyCells()
         {
             return GetCells(_Map.FriendlyType);
+        }
+
+        // Return the list of friendly cells
+        public List<Cell> GetEnnemyCells()
+        {
+            if (_Map.FriendlyType == CellType.Vampires)
+            {
+                return _WerewolvesCells;
+            }
+            else
+            {
+                return _VampireCells
+            }
         }
 
     }
