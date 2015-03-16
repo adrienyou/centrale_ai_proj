@@ -39,7 +39,7 @@ namespace VampiresVSWerewolves
         }
 
 
-        public int distance (cellA, cellB) //Calcule le nombre de coups nécessaires pour aller de cellA à cellB
+        public int distance (cellA, cellB) //Calcule le nombre de coups min nécessaires pour aller de cellA à cellB
                                            // ne tient pas compte des obstacles éventuels sur le chemin
         { 
             int xA = ;
