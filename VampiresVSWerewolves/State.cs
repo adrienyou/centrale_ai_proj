@@ -125,6 +125,8 @@ namespace VampiresVSWerewolves
             get { return _Cells; }
         }
 
+
+
         // Functions needed for the evaluation function
         public int getCurrentNbEnnemies(cellType ennemyType)
         {
@@ -135,6 +137,18 @@ namespace VampiresVSWerewolves
         {
             return ourType.pop;
         }
+
+        public int getNbHumansEnnemyConverted(cellType ennemyType)
+        {
+            return ;
+        }
+
+        public int getNbHumansWeConverted(cellType ourType)
+        {
+            return;
+        }
+
+
 
     }
 }

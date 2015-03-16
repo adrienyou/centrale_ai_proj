@@ -20,31 +20,35 @@ namespace VampiresVSWerewolves
         int f4 = d; // number of humans our ennemies have converted
         int w4 = -8;
 
-        // Who is closer to convertible Humans
+        // Who is closer to convertible Humans  (function in in State.cs)
         int f5 = sum (Distances from each of our groups to their CLOSEST SMALLER HUMAN group) 
                                 - sum (Distances from each ENNEMIES groups to their CLOSEST SMALLER HUMAN group)
         int w5 = 3;
 
-        // Who is closer to weaker ennemies
+        // Who is closer to weaker ennemies  (distance function is in Position.cs)
         int f6 = sum (Distances from each of our groups to their CLOSEST SMALLER x 1.5 ENNEMIES group) 
                  - sum (Distances from each of Ennemies groups to their CLOSEST SMALLER x 1.5 group of OUR monsters) 
         int w6 = -2;
 
         // We won because we have more monsters !
-        bool f7 = nbOurMonsters > 1.5 * (nbEnnemies + nbHumans);
+        bool a7 = nbOurMonsters >= 1.5 * (nbEnnemies + nbHumans);
+        int f7 = a7 ? 1 : 0;  // convert boolean to int
         int w7 = 1000;
 
         // We lost because ennemies have more monsters
-        bool f8 = nbEnnemies > 1.5 * (nbOurMonsters + nbHumans);
+        bool a8 = nbEnnemies >= 1.5 * (nbOurMonsters + nbHumans);
+        int f8 = a8 ? 1 : 0;  // convert boolean to int
         int w8 = -1000;
 
         // We won because all ennemies were killed !
-        bool f9 = nbOurMonsters==0;
+        bool a9 = nbOurMonsters==0;
+        int f9 = a9 ? 1 : 0;  // convert boolean to int
         int w9 = 2000;
 
 
         // We lost because all our monsters were killed
-        bool f10 = nbEnnemies==0;
+        bool a10 = nbEnnemies==0;
+        int f10 = a10 ? 1 : 0;  // convert boolean to int
         int w10 = -2000;
 
 
