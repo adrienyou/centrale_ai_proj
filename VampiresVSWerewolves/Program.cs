@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -114,7 +115,10 @@ namespace VampiresVSWerewolves
             
             Engine engine = new Engine();
             CellType friendlyType = state.Map.FriendlyType;
-
+            TreeNode<State> initialNode = new TreeNode<State>(state, new List<Move>(), NodeState.Max);
+            Hashtable tree = new Hashtable();
+            tree.Add(state.getKey(), initialNode);
+            
             /****************** PARTIE ******************/
             while (true)
             {
@@ -206,10 +210,13 @@ namespace VampiresVSWerewolves
             socket.Send(response);
         } 
 
-        public static void useNotRandom(Socket socket, Engine engine, State state)
+        public static void useNotRandom(Socket socket, Engine engine, State state, Hashtable tree)
         {            
             //Calculate moves
-            List<Move> moves = engine.AlphaBeta();
+            TreeNode<State> currentNode = (TreeNode<State>)tree[state.getKey()];
+            Tuple<int, TreeNode<State>> result = engine.AlphaBeta(2, -10000, 10000, tree, currentNode, state.Map.FriendlyType);
+            TreeNode<State> nextNode = result.Item2;
+            List<Move> moves = nextNode.Moves;
 
             //Default value
             string startBuffer = "MOV";

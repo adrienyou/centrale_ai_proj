@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -215,13 +216,14 @@ namespace VampiresVSWerewolves
             return moves;
         }
 
-        public int AlphaBeta(int depth, int alpha, int beta, TreeNode<State> parentNode, CellType currentPlayer)
+        public Tuple<int, TreeNode<State>> AlphaBeta(int depth, int alpha, int beta, Hashtable tree, TreeNode<State> parentNode, CellType currentPlayer)
         {
             State parentState = parentNode.Value;
+            TreeNode<State> bestTurn = null;
 
             if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
             {
-                return 1; // evaluationScore
+                return new Tuple<int, TreeNode<State>>(1, bestTurn); // evaluationScore
             }
 
             foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
@@ -236,19 +238,20 @@ namespace VampiresVSWerewolves
                     nextPlayer = CellType.Werewolves;
                 }
 
-                int score = -AlphaBeta(depth - 1, -beta, -alpha, childNode, nextPlayer);
+                Tuple<int, TreeNode<State>> r = AlphaBeta(depth - 1, -beta, -alpha, tree, childNode, nextPlayer);
+                int score = -r.Item1;
 
                 if (score >= alpha)
                 {
                     alpha = score;
-                    List<Move> bestTurn = moves;
+                    bestTurn = childNode;
                     if (alpha >= beta)
                     {
                         break;
                     }
                 }
             }
-            return alpha;
+            return new Tuple<int, TreeNode<State>>(alpha, bestTurn);
         }
     }
 }
