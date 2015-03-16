@@ -4,6 +4,6 @@
   <Humans X="8" Y="3" Count="1"/>
   <Humans X="8" Y="0" Count="2"/>
   <Humans X="8" Y="6" Count="2"/>
-  <Werewolves X="1" Y="1" Count="4"/>
-  <Vampires X="0" Y="0" Count="4"/>
+  <Werewolves X="5" Y="1" Count="4"/>
+  <Vampires X="5" Y="5" Count="4"/>
 </Map>
