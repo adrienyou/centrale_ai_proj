@@ -25,12 +25,13 @@ namespace VampiresVSWerewolves
 
             List<Cell> friendCells = state.GetCells(type);
             List<Cell> ennemyCells = state.GetCells(ennemyType);
+            List<Cell> humanCells = state.GetCells(CellType.Humans);
 
             // List of all possible moves for each of our goup of units
             List<HashSet<Move>> listOfMoves = new List<HashSet<Move>>();
 
             foreach (Cell cell in friendCells) {
-                listOfMoves.Add(getMoves(cell, ennemyCells));
+                listOfMoves.Add(getMoves(cell, ennemyCells, humanCells, state.Map));
             }
 
             foreach (List<Move> moves in GetCombinations(listOfMoves, new List<Move>())) {
