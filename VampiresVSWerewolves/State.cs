@@ -169,7 +169,7 @@ namespace VampiresVSWerewolves
             // Can return several states because of the fights that give several results...
             // Create deep copies of the given state
 
-            List<State> states = null;
+            List<State> states = new List<State>();
 
             // If the target cell contains nothing
             if (!_Cells.ContainsKey(move.PosTo.Stringify()))
@@ -291,6 +291,7 @@ namespace VampiresVSWerewolves
         public State DeepCopy()
         {
             State copy = new State(_Map);
+            copy.Proba = _Proba;
             foreach (Cell cell in _Cells.Values)
             {
                 copy.UpdateCell(cell.Position.X, cell.Position.Y, cell.Type, cell.Pop);

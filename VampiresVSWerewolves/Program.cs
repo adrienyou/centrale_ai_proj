@@ -152,8 +152,8 @@ namespace VampiresVSWerewolves
                     state.Update(read, buffer);
                 }
 
-                useRandom(socket, engine, state);
-                //useNotRandom(socket, engine, state);
+                //useRandom(socket, engine, state);
+                useNotRandom(socket, engine, state, tree);
             }
 
             socket.Close();
