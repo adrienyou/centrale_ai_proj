@@ -46,6 +46,26 @@ namespace VampiresVSWerewolves
             return moves;
         }
 
+        static IEnumerable<List<Move>> GetCombinations(IEnumerable<HashSet<Move>> lists, IEnumerable<Move> selectedMoves)
+        {
+            // At this point we have a list of possible moves for each of our groups of units.
+            // We need to generate all the possible states using these moves.
+            // To do that we have to compute all the combinations of moves between all our groups.
+            // For performance concerns, this is a generator. It yields a list of moves.
+
+            if (lists.Any())
+            {
+                var remainingLists = lists.Skip(1);
+                foreach (var item in lists.First().Where(x => !selectedMoves.Contains(x)))
+                    foreach (var combo in GetCombinations(remainingLists, selectedMoves.Concat(new List<Move>{item})))
+                        yield return combo;
+            }
+            else
+            {
+                yield return selectedMoves.ToList();
+            }
+        }
+
         public List<Move> RandomSuccessor(State state)
         {
             // We get the list of our cells
