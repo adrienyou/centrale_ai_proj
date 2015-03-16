@@ -220,5 +220,41 @@ namespace VampiresVSWerewolves
             List<Move> whatYouShouldReturn = new List<Move>();
             return whatYouShouldReturn;
         }
+
+        public int AlphaBeta(int depth, int alpha, int beta, TreeNode<State> parentNode, CellType currentPlayer)
+        {
+            State parentState = parentNode.Value;
+
+            if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
+            {
+                return 1; // evaluationScore
+            }
+
+            foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
+            {
+                List<Move> moves = successorResult.Item1;
+                State state = successorResult.Item2;
+
+                TreeNode<State> childNode = new TreeNode<State>(state, moves, parentNode);
+
+                CellType nextPlayer = CellType.Vampires;
+                if (currentPlayer == CellType.Vampires) {
+                    nextPlayer = CellType.Werewolves;
+                }
+
+                int score = -AlphaBeta(depth - 1, -beta, -alpha, childNode, nextPlayer);
+
+                if (score >= alpha)
+                {
+                    alpha = score;
+                    List<Move> bestTurn = moves;
+                    if (alpha >= beta)
+                    {
+                        break;
+                    }
+                }
+            }
+            return alpha;
+        }
     }
 }
