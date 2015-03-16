@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArtificialIntelligence.Tree;
 
 namespace VampiresVSWerewolves
 {
@@ -86,5 +87,37 @@ namespace VampiresVSWerewolves
 
             return moves;
         }
+
+        public int alphabeta(int depth, int alpha, int beta, TreeNode<State> parentNode)
+        {
+            if (gameOver || depth <= 0)
+            {
+                return evaluationScore;
+            }
+            //move(bestMove);
+
+            foreach (Tuple<List<Move>, State> successorResult in successor)
+            {
+                List<Move> moves = successorResult.Item1;
+                State state = successorResult.Item2;
+
+                TreeNode<State> childNode = new TreeNode<State>(state, moves, parentNode);
+
+                int score = -alphabeta(depth - 1, -beta, -alpha, childNode);
+
+                if (score >= alpha)
+                {
+                    alpha = score;
+                    List<Move> bestTurn = moves;
+                    if (alpha >= beta)
+                    {
+                        break;
+                    }
+                }
+            }
+            return alpha;
+        }
+
+
     }
 }

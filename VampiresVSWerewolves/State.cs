@@ -304,18 +304,7 @@ namespace VampiresVSWerewolves
             else return 1;
         }
 
-        // Accessors
-        public Map Map
-        {
-            get { return _Map; }
-        }
-
-        public Hashtable Cells
-        {
-            get { return _Cells; }
-        }
-
-<<<<<<< HEAD
+        
 
 
         // Functions needed for the evaluation function
@@ -341,7 +330,22 @@ namespace VampiresVSWerewolves
 
 
 
-=======
+
+
+        // Accessors
+        public Map Map
+        {
+            get { return _Map; }
+        }
+
+        public Hashtable Cells
+        {
+            get { return _Cells; }
+        }
+
+
+
+
         public Double Proba
         {
             get { return _Proba; }
@@ -372,6 +376,5 @@ namespace VampiresVSWerewolves
             return GetCells(_Map.FriendlyType);
         }
 
->>>>>>> origin/master
     }
 }
