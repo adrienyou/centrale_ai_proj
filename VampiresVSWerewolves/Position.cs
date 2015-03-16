@@ -42,19 +42,5 @@ namespace VampiresVSWerewolves
         {
             get { return _Y; }
         }
-
-
-        public int distance (cellA, cellB) //Calcule le nombre de coups min nécessaires pour aller de cellA à cellB
-                                           // ne tient pas compte des obstacles éventuels sur le chemin
-        { 
-            int xA = ;
-            int yA = ;
-            int xB = ;
-            int yB = ;
-
-            int distanceAB = Math.Max( Math.Abs(xB - xA) , Math.Abs(yB - yA) ) ;
-
-            return distanceAB;
-        }
     }
 }
