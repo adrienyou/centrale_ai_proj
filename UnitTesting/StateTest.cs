@@ -13,6 +13,21 @@ namespace UnitTesting
     public class StateTest
     {
 
+         /// <summary>
+        /// Test to check that the list of cells is sorted the right way.
+        /// </summary>
+        [TestMethod]
+        public void sortCellsByDistanceToCenterCell_Test()
+        {
+            Cell centerCell = new Cell(0, 0, CellType.Humans, 10);
+            Cell vampCell1 = new Cell(1, 1, CellType.Vampires, 3);
+            Cell vampCell2 = new Cell(2, 2, CellType.Vampires, 2);
+            List<Cell> cells = new List<Cell> {vampCell2, vampCell1};
+
+            State.sortCellsByDistance(centerCell, cells);
+            Assert.AreEqual(cells[0], vampCell1);
+
+        }
 
         /// <summary>
         /// Test to check that the properties are correctly set when the State object is instantiated.
