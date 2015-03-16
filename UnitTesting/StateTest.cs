@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VampiresVSWerewolves;
 
 namespace UnitTesting
 {
+    /// <summary>
+    /// Summary description for StateTest
+    /// </summary>
     [TestClass]
-    class StateTests
+    public class StateTest
     {
+
+
         /// <summary>
         /// Test to check that the properties are correctly set when the State object is instantiated.
         /// </summary>

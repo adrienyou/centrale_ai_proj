@@ -45,15 +45,6 @@ namespace UnitTesting
             state.UpdateCell(3, 4, CellType.Werewolves, 10);
 
             List<Move> moves = engine.RandomSuccessor(state);
-
-/*            Assert.AreEqual<bool>(true, goodPos.isValid(map));
-            Assert.AreEqual<bool>(true, goodPos2.isValid(map));
-            Assert.AreEqual<bool>(false, badPos.isValid(map));
-            Assert.AreEqual<bool>(false, badPos2.isValid(map));
-            Assert.AreEqual<bool>(false, badPos3.isValid(map));
-  
- */
         }
-
     }
 }
