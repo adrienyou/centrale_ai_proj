@@ -50,13 +50,13 @@ namespace VampiresVSWerewolves
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "SET")
                 throw new Exception("Erreur, attendu: SET");
 
-            int mapWidth = Convert.ToInt16(buffer[4]); // Nombre de colonnes
-            int mapHeight = Convert.ToInt16(buffer[3]); // Nombre de lignes
-            //Map map = new Map(height, width);
-            
-/*            Console.WriteLine("Row number: " + Convert.ToString(map.Height));
-            Console.WriteLine("Column number: " + Convert.ToString(map.Width));
- */           
+            int mapHeight = Convert.ToInt16(buffer[3]); // Nombre de lignes, correspond à y
+            int mapWidth = Convert.ToInt16(buffer[4]); // Nombre de colonnes, correspond à x
+
+            Console.WriteLine("Map Height: " + mapHeight.ToString());
+            Console.WriteLine("Map Width: " + mapWidth.ToString());
+
+            Map map = new Map(mapHeight, mapWidth);      
 
             //On recoit HUM, cad les cases où sont placées les humains
             Console.WriteLine("Receiving HUM...");
@@ -71,6 +71,7 @@ namespace VampiresVSWerewolves
 
             //Read contient deux fois le nombre de maisons dans la carte
             //pour tout i pair ou nul, buffer[i] contient x et buffer[i+1] contient y
+            //On doit faire un truc la?
 
             //On recoit HME, c'est-à-dire la case où sont placés vos monstres
             while (socket.Available < 5)
@@ -79,8 +80,10 @@ namespace VampiresVSWerewolves
             if (Encoding.ASCII.GetString(buffer, 0, 3) != "HME")
                 throw new Exception("Erreur, attendu: HME");
 
-            //Mettez à jour votre grille en utilisant (buffer[3], buffer[4]) comme coordonnées de votre demeure
-            Console.WriteLine("Ma demeure: " + Convert.ToString(buffer[3]) + " & " + Convert.ToString(buffer[4]));
+            //(buffer[3], buffer[4]) = (x, y) de ma demeure
+            Position myHomePosition = new Position(Convert.ToInt16(buffer[3]), Convert.ToInt16(buffer[4]));
+
+            Console.WriteLine("Ma demeure: " + Convert.ToString(myHomePosition.X) + " & " + Convert.ToString(myHomePosition.Y));
 
             //On recoit MAP
             while (socket.Available < 4)
@@ -92,29 +95,25 @@ namespace VampiresVSWerewolves
                 Thread.Sleep(100);
 
             read = socket.Receive(buffer, buffer[3] * 5, SocketFlags.Partial);
-
-            //Read contient 5x le nombre de 5-tuplets.
-            //Buffer contient la liste des changements
-            Console.WriteLine("READ: " + Convert.ToString(read));
-            
-           /*
+           
             State state = new State(map);
-            state.Update(read, buffer);
+            state.FirstUpdate(read, buffer, map, myHomePosition);
 
-            Position pos = new Position(4, 2);
+            Console.WriteLine("Mon type est: " + map.FriendlyType.ToString());
+
+            /*Position pos = new Position(4, 2);
             string pos_str = pos.Stringify();
             Cell cell = (Cell)state.Cells[pos_str];
             // Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
             Console.WriteLine("TEST STRING: " + state.getKey());
-
-            Move move = new Move(1, 1, 1, 2, 2);
+            */
+           /* Move move = new Move(1, 1, 1, 2, 2);
             byte[] resConvert = move.convertToOrder();
             Console.WriteLine("TEST MOVE CONVERT: " + resConvert[4]);
+            */
             
             Engine engine = new Engine();
-            * 
-            * 
-            * /
+
 
             /****************** PARTIE ******************/
             while (true)
@@ -147,12 +146,27 @@ namespace VampiresVSWerewolves
                     //n est le nombre de changements
 
                     //Modifiez votre grille ici en fonction des changements
+                    state.Update(read, buffer);
                 }
 
                 //ICI FAITES VOS CALCULS
-                byte[] response = new byte[0];
+                byte[] response = new byte[5];
                 //créez un byte[] contenant tout ce qu'il faut
+                List<Move> moves = engine.RandomSuccessor(state);
+                Move move = moves[0];
+
+                Console.WriteLine("Position From: " + move.PosFrom);
+                Console.WriteLine("Position To: " + move.PosTo);
+                Console.WriteLine("Pop: " + move.Pop);
+
+                response = move.convertToOrder();
+
+                socket.Send(Encoding.ASCII.GetBytes("MOV"));
+                socket.Send(new byte[] { (byte)(response.Length / 5) });
                 socket.Send(response);
+ 
+                //socket.Send(response);
+
             }
 
             socket.Close();

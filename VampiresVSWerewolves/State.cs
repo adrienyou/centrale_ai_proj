@@ -30,6 +30,58 @@ namespace VampiresVSWerewolves
             _Proba = 0;
         }
 
+        public void FirstUpdate(int read, byte[] buffer, Map map, Position myHomePosition)
+        {
+            // Update the whole state with the UPD order received from the server
+            for (int i = 0; i < read / 5; i++)
+            {
+                int x = buffer[5 * i + 0];
+                int y = buffer[5 * i + 1];
+                int humans = buffer[5 * i + 2];
+                int vampires = buffer[5 * i + 3];
+                int werewolves = buffer[5 * i + 4];
+
+                // If test pass, it means that we are on our home, so we get the pop and deduce our type
+                if (x == myHomePosition.X && y == myHomePosition.Y)
+                {
+                    if (vampires > 0)
+                    {
+                        map.FriendlyType = CellType.Vampires;
+                    }
+                    else
+                    {
+                        map.FriendlyType = CellType.Werewolves;
+                    }
+                }
+
+                CellType cellType = CellType.Empty;
+                int pop = 0;
+                if (humans > 0)
+                {
+                    cellType = CellType.Humans;
+                    pop = humans;
+                }
+                else if (vampires > 0)
+                {
+                    cellType = CellType.Vampires;
+                    pop = vampires;
+                }
+                else if (werewolves > 0)
+                {
+                    cellType = CellType.Werewolves;
+                    pop = werewolves;
+                }
+
+                this.UpdateCell(x, y, cellType, pop);
+
+                Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
+                Console.WriteLine("Y: " + Convert.ToString(buffer[5 * i + 1]));
+                Console.WriteLine("humains: " + Convert.ToString(buffer[5 * i + 2]));
+                Console.WriteLine("vampires: " + Convert.ToString(buffer[5 * i + 3]));
+                Console.WriteLine("loups: " + Convert.ToString(buffer[5 * i + 4]));
+            }
+        }
+
         public void Update(int read, byte[] buffer)
         {
             // Update the whole state with the UPD order received from the server
