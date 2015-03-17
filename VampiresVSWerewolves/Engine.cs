@@ -235,6 +235,12 @@ namespace VampiresVSWerewolves
 
                 TreeNode<State> childNode = new TreeNode<State>(state, moves, parentNode);
 
+                // Save node in the global tree
+                if (!tree.ContainsKey(childNode.Value.getKey()))
+                {
+                    tree.Add(childNode.Value.getKey(), childNode);
+                }
+
                 CellType nextPlayer = CellType.Vampires;
                 if (currentPlayer == CellType.Vampires) {
                     nextPlayer = CellType.Werewolves;
