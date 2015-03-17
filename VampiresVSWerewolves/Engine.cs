@@ -225,7 +225,14 @@ namespace VampiresVSWerewolves
 
             if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
             {
-                return new Tuple<int, TreeNode<State>>(parentState.evalScore(), bestTurn); // evaluationScore
+                if (parentState.Proba > 0)
+                {
+                    return new Tuple<int, TreeNode<State>>(Convert.ToInt32(parentState.Proba * parentState.Proba * Convert.ToDouble(parentState.evalScore())), bestTurn); // evaluationScore
+                }
+                else
+                {
+                    return new Tuple<int, TreeNode<State>>(parentState.evalScore(), bestTurn); // evaluationScore
+                }
             }
 
             foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
