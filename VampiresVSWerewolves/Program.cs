@@ -213,19 +213,26 @@ namespace VampiresVSWerewolves
         public static void useNotRandom(Socket socket, Engine engine, State state, Hashtable tree)
         {            
             //Calculate moves
-            TreeNode<State> currentNode = (TreeNode<State>)tree[state.getKey()];
+            TreeNode<State> currentNode = new TreeNode<State>();
+            if (tree.ContainsKey(state.getKey())) 
+            {
+                currentNode = (TreeNode<State>)tree[state.getKey()];
+            } 
+            else {
+                currentNode = new TreeNode<State>(state, new List<Move>(), NodeState.Max);
+                tree.Add(state.getKey(), currentNode);
+            }
+            
             Tuple<int, TreeNode<State>> result = engine.AlphaBeta(2, -10000, 10000, tree, currentNode, state.Map.FriendlyType);
             TreeNode<State> nextNode = result.Item2;
             List<Move> moves = nextNode.Moves;
 
             //Default value
             string startBuffer = "MOV";
-
-            socket.Send(Encoding.ASCII.GetBytes(startBuffer));
-            socket.Send(new byte[] { (byte)(moves.Count / 5) });
-
             byte[] response = Move.convertToByteArray(moves);
 
+            socket.Send(Encoding.ASCII.GetBytes(startBuffer));
+            socket.Send(new byte[] { (byte)(moves.Count) });
             socket.Send(response);
             
         } 

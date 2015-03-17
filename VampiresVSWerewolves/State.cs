@@ -151,7 +151,14 @@ namespace VampiresVSWerewolves
                     {
                         _Cells.Remove(pos_str);
                     }
-                } 
+                }
+                else
+                {
+                    if (pop == 0)
+                    {
+                        GetCells(oldType).Remove(cell);
+                    }
+                }
             }
             else
             {
@@ -170,12 +177,13 @@ namespace VampiresVSWerewolves
             // Create deep copies of the given state
 
             List<State> states = new List<State>();
+            Cell cellFrom = (Cell)_Cells[move.PosFrom.Stringify()];
 
             // If the target cell contains nothing
             if (!_Cells.ContainsKey(move.PosTo.Stringify()))
             {
                 State new_state = this.DeepCopy();
-                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                 new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
                 states.Add(new_state);
             }
@@ -186,7 +194,7 @@ namespace VampiresVSWerewolves
                 if (cell.Type == type)
                 {
                     State new_state = this.DeepCopy();
-                    new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                    new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                     new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, cell.Pop + move.Pop);
                     states.Add(new_state);
                 }
@@ -199,7 +207,7 @@ namespace VampiresVSWerewolves
                         if (cell.Pop <= move.Pop)
                         {
                             State new_state = this.DeepCopy();
-                            new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                            new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                             new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, cell.Pop + move.Pop);
                             states.Add(new_state);
                         }
@@ -213,7 +221,7 @@ namespace VampiresVSWerewolves
                             for (int i = 0; i <= S; i++)
                             {
                                 State new_state = this.DeepCopy();
-                                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                                 new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, i);
 
                                 // Compute the probability of this state
@@ -229,7 +237,7 @@ namespace VampiresVSWerewolves
                             for (int i = 0; i <= cell.Pop; i++)
                             {
                                 State new_state = this.DeepCopy();
-                                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                                new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                                 new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, i);
 
                                 // Compute the probability of this state
@@ -248,13 +256,19 @@ namespace VampiresVSWerewolves
                         if (cell.Pop <= 1.5*move.Pop)
                         {
                             State new_state = this.DeepCopy();
-                            new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, -move.Pop);
+                            new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                             new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
+                            states.Add(new_state);
                         }
                         else
                         {
-                            // TO DO: fight, proba
-                            // En attente de la réponse du prof
+                            State new_state = this.DeepCopy();
+                            new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
+                            new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
+
+                            double p_state = Math.Abs(1 - move.Pop/cell.Pop);
+                            new_state.Proba = p_state;
+                            states.Add(new_state);
                         }
                     }
                 }

@@ -111,11 +111,11 @@ namespace VampiresVSWerewolves
                 yTo = a.Y - 1;
             }
 
-            Position posX = new Position(xTo, a.Y);
-            Position posY = new Position(a.X, yTo);
+            // Position posX = new Position(xTo, a.Y);
+            // Position posY = new Position(a.X, yTo);
             Position posXY = new Position(xTo, yTo);
 
-            if (posX.isValid(map))
+            /* if (posX.isValid(map))
             {
                 positions.Add(posX);
             }
@@ -123,6 +123,7 @@ namespace VampiresVSWerewolves
             {
                 positions.Add(posY);
             }
+             */
             if (posXY.isValid(map))
             {
                 positions.Add(posXY);
