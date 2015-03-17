@@ -29,6 +29,33 @@ namespace UnitTesting
 
         }
 
+        [TestMethod]
+        public void State_Test()
+        {
+            Map map = new Map(12, 12, CellType.Vampires);
+            State state = new State(map);
+            Cell centerCell = new Cell(0, 0, CellType.Humans, 4);
+            Cell vCell =  new Cell(0, 1, CellType.Vampires, 1);
+            Cell wCell = new Cell(0, 2, CellType.Werewolves, 4);
+
+            Assert.AreEqual(centerCell.distanceToCell(vCell) + 1, centerCell.distanceToCell(wCell));
+
+            // Humans
+            state.UpdateCell(2, 3, CellType.Humans, 4);
+            state.UpdateCell(10,5, CellType.Humans, 3);
+            // Vampires
+            state.UpdateCell(4, 3, CellType.Vampires, 1);
+            state.UpdateCell(3, 5, CellType.Vampires, 1);
+            state.UpdateCell(2, 7, CellType.Vampires, 2);
+            state.UpdateCell(9, 7, CellType.Vampires, 1);
+            // Werewolves
+            state.UpdateCell(2, 6, CellType.Werewolves, 3);
+            state.UpdateCell(11, 8, CellType.Werewolves, 4);
+
+            Assert.AreEqual(1, state.HumanProximity());
+
+        }
+
         /// <summary>
         /// Test to check that the properties are correctly set when the State object is instantiated.
         /// </summary>

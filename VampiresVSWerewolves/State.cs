@@ -317,48 +317,65 @@ namespace VampiresVSWerewolves
             {
                 int iv = 0;
                 int iw = 0;
+                int dv = 0;
+                int dw = 0;
                 int countV = 0;
                 int countW = 0;
 
                 State.sortCellsByDistance(hCell, _VampireCells);
                 State.sortCellsByDistance(hCell, _WerewolvesCells);
 
-                while (countV < hCell.Pop && countW < hCell.Pop && iv < _VampireCells.Count && iw < _WerewolvesCells.Count)
+                while (countV < hCell.Pop && iv < _VampireCells.Count)
                 {
                     Cell vCell = _VampireCells[iv];
+                    countV += vCell.Pop;
+                    dv = hCell.distanceToCell(vCell);
+                    iv++;
+                }
+                while (countW < hCell.Pop && iw < _WerewolvesCells.Count)
+                {
                     Cell wCell = _WerewolvesCells[iw];
-                    if (hCell.distanceToCell(_VampireCells[iv]) < hCell.distanceToCell(_WerewolvesCells[iw]))
-                    {
-                        countV += vCell.Pop;
-                        iv++;
-                    }
-                    else
-                    {
-                        countW += wCell.Pop;
-                        iw++;
-                    }
+                    countW += wCell.Pop;
+                    dw = hCell.distanceToCell(wCell);
+                    iw++;
                 }
                 // If our race is likely to win, we add the number of humans to the total count
-                if (_Map.FriendlyType == CellType.Vampires)
-                {
-                    if (countV > countW)
+                bool nobodyWins = false;
+                CellType winnerType = CellType.Vampires;
+                if (countV >= hCell.Pop) {
+                    if (countW < hCell.Pop)
                     {
-                        totalCount += hCell.Pop;
+                        winnerType = CellType.Vampires;
                     }
                     else
                     {
-                        totalCount -= hCell.Pop;
+                        if (dv < dw) {
+                            winnerType = CellType.Vampires;
+                        } else if (dv > dw) {
+                            winnerType = CellType.Werewolves;
+                        } else {
+                            nobodyWins = true;
+                        }
+                    }
+                } else {
+                    if (countW >= hCell.Pop)
+                    {
+                        winnerType = CellType.Werewolves;
+                    }
+                    else
+                    {
+                        nobodyWins = true;
                     }
                 }
-                else
+                if (nobodyWins == false)
                 {
-                    if (countV < countW)
+                    if (_Map.FriendlyType == winnerType)
                     {
-                        totalCount -= hCell.Pop;
+                        totalCount += hCell.Pop;
                     }
                     else
                     {
-                        totalCount += hCell.Pop;
+                        totalCount -= hCell.Pop;
                     }
                 }
             }
@@ -415,7 +432,7 @@ namespace VampiresVSWerewolves
             }
             else
             {
-                return _VampireCells
+                return _VampireCells;
             }
         }
 
