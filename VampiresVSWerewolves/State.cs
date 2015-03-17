@@ -382,6 +382,64 @@ namespace VampiresVSWerewolves
             return totalCount;
         }
 
+        public int evalScore()
+        {
+            int score = 0;
+
+            // Count numbers of friends and enemies
+            int sumUs = 0;
+            foreach (Cell friend in this.GetFriendlyCells()) {
+                sumUs += friend.Pop;
+            }
+            int sumThem = 0;
+            foreach (Cell ennemy in this.GetEnnemyCells())
+            {
+                sumThem += ennemy.Pop;
+            }
+            int sumHumans = 0;
+            foreach (Cell human in _HumanCells)
+            {
+                sumHumans += human.Pop;
+            }
+
+            int f1 = sumUs - sumThem;  // nb ennemies vs. nb our monsters
+            int w1 = 10;  // weight
+
+            // Who is the more likely to convert humans
+            int f2 = this.HumanProximity();
+            int w2 = 8;
+
+            // We won because we have more monsters !
+            bool a3 = sumUs >= 1.5 * (sumThem + sumHumans);
+            int f3 = a3 ? 1 : 0;  // convert boolean to int
+            int w3 = 1000;
+
+
+            // We lost because ennemies have more monsters
+            bool a4 = sumThem >= 1.5 * (sumUs + sumHumans);
+            int f4 = a4 ? 1 : 0;  // convert boolean to int
+            int w4 = -1000;
+
+
+            // We won because all ennemies were killed !
+            bool a5 = sumThem == 0;
+            int f5 = a5 ? 1 : 0;  // convert boolean to int
+            int w5 = 100000;
+
+
+            // We lost because all our monsters were killed
+            bool a6 = sumUs == 0;
+            int f6 = a6 ? 1 : 0;  // convert boolean to int
+            int w6 = -100000;
+
+
+
+            score = f1 * w1 + f2 * w2 + f3 * w3 + f4 * w4 + f5 * w5 + f6 * w6;
+
+            return score;
+
+        }
+
         // Accessors
         public Map Map
         {

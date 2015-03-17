@@ -44,15 +44,15 @@ namespace UnitTesting
             state.UpdateCell(2, 3, CellType.Humans, 4);
             state.UpdateCell(10,5, CellType.Humans, 3);
             // Vampires
-            state.UpdateCell(4, 3, CellType.Vampires, 1);
-            state.UpdateCell(3, 5, CellType.Vampires, 1);
+            state.UpdateCell(4, 3, CellType.Vampires, 14);
+            state.UpdateCell(3, 5, CellType.Vampires, 4);
             state.UpdateCell(2, 7, CellType.Vampires, 2);
             state.UpdateCell(9, 7, CellType.Vampires, 1);
             // Werewolves
             state.UpdateCell(2, 6, CellType.Werewolves, 3);
             state.UpdateCell(11, 8, CellType.Werewolves, 4);
 
-            Assert.AreEqual(1, state.HumanProximity());
+            Assert.AreEqual(1, state.evalScore());
 
         }
 
