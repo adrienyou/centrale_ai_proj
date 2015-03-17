@@ -422,7 +422,7 @@ namespace VampiresVSWerewolves
 
             // Who is the more likely to convert humans
             int f2 = this.HumanProximity();
-            int w2 = 8;
+            int w2 = 5;
 
             // We won because we have more monsters !
             bool a3 = sumUs >= 1.5 * (sumThem + sumHumans);

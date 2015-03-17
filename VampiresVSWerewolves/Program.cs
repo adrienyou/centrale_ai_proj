@@ -223,7 +223,7 @@ namespace VampiresVSWerewolves
                 tree.Add(state.getKey(), currentNode);
             }
             
-            Tuple<int, TreeNode<State>> result = engine.AlphaBeta(2, -10000, 10000, tree, currentNode, state.Map.FriendlyType);
+            Tuple<int, TreeNode<State>> result = engine.AlphaBeta(4, -1000000, 1000000, tree, currentNode, state.Map.FriendlyType);
             TreeNode<State> nextNode = result.Item2;
             List<Move> moves = nextNode.Moves;
 

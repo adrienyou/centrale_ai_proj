@@ -167,7 +167,8 @@ namespace VampiresVSWerewolves
                 else
                 {
                     foreach (State state in currentState.Move(move, type)) {
-                        List<Move> leftMoves = (List<Move>)moves.Reverse<Move>().Take(moves.Count - 1);
+                        // List<Move> leftMoves = moves.Reverse<Move>().Take(moves.Count - 1);
+                        List<Move> leftMoves = moves.GetRange(1, moves.Count - 1);
                         states.AddRange(GenerateStates(state, leftMoves, type));
                     }
                     return states;
@@ -224,7 +225,7 @@ namespace VampiresVSWerewolves
 
             if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
             {
-                return new Tuple<int, TreeNode<State>>(1, bestTurn); // evaluationScore
+                return new Tuple<int, TreeNode<State>>(parentState.evalScore(), bestTurn); // evaluationScore
             }
 
             foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
