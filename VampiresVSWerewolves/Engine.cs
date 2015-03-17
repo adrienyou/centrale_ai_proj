@@ -9,15 +9,12 @@ namespace VampiresVSWerewolves
 {
     public class Engine
     {
-        // Class contenant les méthodes du moteur de décision du jeu
-
-        public Engine()
-        {
-
-        }
+        // This class contains the main game engine methods (like alphabeta algorithm)
+        public Engine() {}
 
         public IEnumerable<Tuple<List<Move>, State>> Successor(State state, CellType type) 
         {
+            // Get all successors of a given state
             CellType ennemyType = CellType.Vampires;
             if (type == CellType.Vampires)
             {
@@ -44,13 +41,10 @@ namespace VampiresVSWerewolves
             }
         }
 
-        /*
-            int x = Math.Max(cell.Position.X + Math.Max(Math.Min(cell.Position.X, 1), -1), 0);
-            int y = Math.Max(cell.Position.Y + Math.Max(Math.Min(cell.Position.Y, 1), -1), 0);
-            Position posTo = new Position(x, y);
-        */
         public HashSet<Move> getMoves(Cell cell, List<Cell> ennemyCells, List<Cell> humanCells, Map map) 
         {
+            // For a given group of units, determine all the possible moves given our 3 kinds of missions:
+            // "attack", "convert", "escape"
             HashSet<Move> moves = new HashSet<Move>();
             foreach (Cell ennemyCell in ennemyCells)
             {
@@ -177,6 +171,60 @@ namespace VampiresVSWerewolves
             return states;
         }
 
+        public Tuple<int, TreeNode<State>> AlphaBeta(int depth, int alpha, int beta, Hashtable tree, TreeNode<State> parentNode, CellType currentPlayer)
+        {
+            // AlphaBeta algorithm (NegaMax)
+
+            State parentState = parentNode.Value;
+            TreeNode<State> bestTurn = null;
+
+            if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
+            {
+                if (parentState.Proba > 0)
+                {
+                    return new Tuple<int, TreeNode<State>>(Convert.ToInt32(parentState.Proba * parentState.Proba * Convert.ToDouble(parentState.evalScore())), bestTurn); // evaluationScore
+                }
+                else
+                {
+                    return new Tuple<int, TreeNode<State>>(parentState.evalScore(), bestTurn); // evaluationScore
+                }
+            }
+
+            foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
+            {
+                List<Move> moves = successorResult.Item1;
+                State state = successorResult.Item2;
+
+                TreeNode<State> childNode = new TreeNode<State>(state, moves, parentNode);
+
+                // Save node in the global tree
+                // Should be used later on to avoid recomputing nodes that have been done before
+                if (!tree.ContainsKey(childNode.Value.getKey()))
+                {
+                    tree.Add(childNode.Value.getKey(), childNode);
+                }
+
+                CellType nextPlayer = CellType.Vampires;
+                if (currentPlayer == CellType.Vampires) {
+                    nextPlayer = CellType.Werewolves;
+                }
+
+                Tuple<int, TreeNode<State>> r = AlphaBeta(depth - 1, -beta, -alpha, tree, childNode, nextPlayer);
+                int score = -r.Item1;
+
+                if (score >= alpha)
+                {
+                    alpha = score;
+                    bestTurn = childNode;
+                    if (alpha >= beta)
+                    {
+                        break;
+                    }
+                }
+            }
+            return new Tuple<int, TreeNode<State>>(alpha, bestTurn);
+        }
+   
         public List<Move> RandomSuccessor(State state)
         {
             // We get the list of our cells
@@ -216,57 +264,6 @@ namespace VampiresVSWerewolves
             }
 
             return moves;
-        }
-
-        public Tuple<int, TreeNode<State>> AlphaBeta(int depth, int alpha, int beta, Hashtable tree, TreeNode<State> parentNode, CellType currentPlayer)
-        {
-            State parentState = parentNode.Value;
-            TreeNode<State> bestTurn = null;
-
-            if (parentNode.Value.GetEnnemyCells().Count == 0 || depth <= 0)
-            {
-                if (parentState.Proba > 0)
-                {
-                    return new Tuple<int, TreeNode<State>>(Convert.ToInt32(parentState.Proba * parentState.Proba * Convert.ToDouble(parentState.evalScore())), bestTurn); // evaluationScore
-                }
-                else
-                {
-                    return new Tuple<int, TreeNode<State>>(parentState.evalScore(), bestTurn); // evaluationScore
-                }
-            }
-
-            foreach (Tuple<List<Move>, State> successorResult in Successor(parentState, currentPlayer))
-            {
-                List<Move> moves = successorResult.Item1;
-                State state = successorResult.Item2;
-
-                TreeNode<State> childNode = new TreeNode<State>(state, moves, parentNode);
-
-                // Save node in the global tree
-                if (!tree.ContainsKey(childNode.Value.getKey()))
-                {
-                    tree.Add(childNode.Value.getKey(), childNode);
-                }
-
-                CellType nextPlayer = CellType.Vampires;
-                if (currentPlayer == CellType.Vampires) {
-                    nextPlayer = CellType.Werewolves;
-                }
-
-                Tuple<int, TreeNode<State>> r = AlphaBeta(depth - 1, -beta, -alpha, tree, childNode, nextPlayer);
-                int score = -r.Item1;
-
-                if (score >= alpha)
-                {
-                    alpha = score;
-                    bestTurn = childNode;
-                    if (alpha >= beta)
-                    {
-                        break;
-                    }
-                }
-            }
-            return new Tuple<int, TreeNode<State>>(alpha, bestTurn);
         }
     }
 }

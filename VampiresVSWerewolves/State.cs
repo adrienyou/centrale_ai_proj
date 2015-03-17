@@ -73,13 +73,6 @@ namespace VampiresVSWerewolves
                 }
 
                 this.UpdateCell(x, y, cellType, pop);
-
-                /*Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
-                Console.WriteLine("Y: " + Convert.ToString(buffer[5 * i + 1]));
-                Console.WriteLine("humains: " + Convert.ToString(buffer[5 * i + 2]));
-                Console.WriteLine("vampires: " + Convert.ToString(buffer[5 * i + 3]));
-                Console.WriteLine("loups: " + Convert.ToString(buffer[5 * i + 4]));
-                 */
             }
         }
 
@@ -113,13 +106,6 @@ namespace VampiresVSWerewolves
                 }
 
                 this.UpdateCell(x, y, cellType, pop);
-
-                /*Console.WriteLine("X: " + Convert.ToString(buffer[5 * i + 0]));
-                Console.WriteLine("Y: " + Convert.ToString(buffer[5 * i + 1]));
-                Console.WriteLine("humains: " + Convert.ToString(buffer[5 * i + 2]));
-                Console.WriteLine("vampires: " + Convert.ToString(buffer[5 * i + 3]));
-                Console.WriteLine("loups: " + Convert.ToString(buffer[5 * i + 4]));
-                 */ 
             }
         }
 
@@ -246,8 +232,8 @@ namespace VampiresVSWerewolves
                                 new_state.Proba = p_state;
 
                                 states.Add(new_state);
+                            }
                         }
-                    }
                     }
                     // If the target cell contains Ennemies
                     else
@@ -266,6 +252,8 @@ namespace VampiresVSWerewolves
                             new_state.UpdateCell(move.PosFrom.X, move.PosFrom.Y, type, cellFrom.Pop - move.Pop);
                             new_state.UpdateCell(move.PosTo.X, move.PosTo.Y, type, move.Pop);
 
+                            // TO DO compute the right probability rule for the fights with ennemies...
+                            // For now just use this simple rule...
                             double p_state = Math.Abs(1 - move.Pop/cell.Pop);
                             new_state.Proba = p_state;
                             states.Add(new_state);
@@ -447,12 +435,8 @@ namespace VampiresVSWerewolves
             int f6 = a6 ? 1 : 0;  // convert boolean to int
             int w6 = -100000;
 
-
-
             score = f1 * w1 + f2 * w2 + f3 * w3 + f4 * w4 + f5 * w5 + f6 * w6;
-
             return score;
-
         }
 
         // Accessors

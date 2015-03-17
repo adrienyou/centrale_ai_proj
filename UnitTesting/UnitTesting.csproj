@@ -57,10 +57,6 @@
     <Compile Include="TreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tree\Tree.csproj">
-      <Project>{ea297544-ff6a-42d9-9ce2-9684e5e90045}</Project>
-      <Name>Tree</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VampiresVSWerewolves\Controller.csproj">
       <Project>{504bbde8-c387-441f-a340-08279c78f4ad}</Project>
       <Name>Controller</Name>

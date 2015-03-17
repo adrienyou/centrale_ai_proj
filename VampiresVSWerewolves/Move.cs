@@ -75,13 +75,11 @@ namespace VampiresVSWerewolves
 
         public override bool Equals(System.Object obj)
         {
-            // If parameter is null return false.
             if (obj == null)
             {
                 return false;
             }
 
-            // If parameter cannot be cast to Point return false.
             Move move = obj as Move;
             if ((System.Object)move == null)
             {
@@ -93,7 +91,6 @@ namespace VampiresVSWerewolves
 
         public bool Equals(Move move)
         {
-            // If parameter is null return false:
             if ((object)move == null)
             {
                 return false;

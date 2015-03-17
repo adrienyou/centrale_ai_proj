@@ -102,17 +102,6 @@ namespace VampiresVSWerewolves
 
             Console.WriteLine("Mon type est: " + map.FriendlyType.ToString());
 
-            /*Position pos = new Position(4, 2);
-            string pos_str = pos.Stringify();
-            Cell cell = (Cell)state.Cells[pos_str];
-            // Console.WriteLine("TEST STATE: " + Convert.ToString(cell.Pop));
-            Console.WriteLine("TEST STRING: " + state.getKey());
-            */
-           /* Move move = new Move(1, 1, 1, 2, 2);
-            byte[] resConvert = move.convertToOrder();
-            Console.WriteLine("TEST MOVE CONVERT: " + resConvert[4]);
-            */
-            
             Engine engine = new Engine();
             CellType friendlyType = state.Map.FriendlyType;
             TreeNode<State> initialNode = new TreeNode<State>(state, new List<Move>(), NodeState.Max);
@@ -139,8 +128,6 @@ namespace VampiresVSWerewolves
                 //Buffer[0] contient le nombre de changements à prendre en compte
                 if (buffer[0] > 0)
                 {
-                    Console.WriteLine("Cellules modifiées:");
-
                     while (socket.Available < buffer[0] * 5)
                         Thread.Sleep(100);
 
@@ -152,67 +139,16 @@ namespace VampiresVSWerewolves
                     state.Update(read, buffer);
                 }
 
-                //useRandom(socket, engine, state);
-                useNotRandom(socket, engine, state, tree);
+                play(socket, engine, state, tree);
             }
 
             socket.Close();
             socket.Dispose();
         }
 
-        public static void useRandom(Socket socket, Engine engine, State state)
-        {
-            byte[] response = new byte[5];
-
-            List<Move> moves = engine.RandomSuccessor(state);
-            Move move = moves[0];
-
-            //Default value
-            string startBuffer = "MOV";
-
-/*  En fait, envoyer ATK fait planter, meme si il y a bien un ennemi
- *  sur la case d'arriver.
- *  Donc pas besoin
- * 
- * if (state.Cells.ContainsKey(move.PosTo.Stringify()))
-            {
-                Cell cell = (Cell)state.Cells[move.PosTo.Stringify()];
-
-                // We have to get the type of the cell we're going to, in order to know what string byte to use ("MOV" or "ATK")
-                CellType goToCellType = cell.Type;
-
-                if (friendlyType == CellType.Vampires)
-                {
-                    if (goToCellType == CellType.Humans || goToCellType == CellType.Werewolves)
-                    {
-                        startBuffer = "ATK";
-                    }
-                }
-                // Means we are Werewolves
-                else
-                {
-                    if (goToCellType == CellType.Humans || goToCellType == CellType.Vampires)
-                    {
-                        startBuffer = "ATK";
-                    }
-                }
-            }
-*/
-
-            Console.WriteLine("Position From: " + move.PosFrom.Stringify());
-            Console.WriteLine("Position To: " + move.PosTo.Stringify());
-            Console.WriteLine("Pop: " + move.Pop.ToString());
-
-            response = move.convertToOrder();
-
-            socket.Send(Encoding.ASCII.GetBytes(startBuffer));
-            socket.Send(new byte[] { (byte)(response.Length / 5) });
-            socket.Send(response);
-        } 
-
-        public static void useNotRandom(Socket socket, Engine engine, State state, Hashtable tree)
+        public static void play(Socket socket, Engine engine, State state, Hashtable tree)
         {            
-            //Calculate moves
+            // Calculate moves
             TreeNode<State> currentNode = new TreeNode<State>();
             if (tree.ContainsKey(state.getKey())) 
             {
@@ -223,18 +159,20 @@ namespace VampiresVSWerewolves
                 tree.Add(state.getKey(), currentNode);
             }
             
-            Tuple<int, TreeNode<State>> result = engine.AlphaBeta(2, -1000000, 1000000, tree, currentNode, state.Map.FriendlyType);
+            // Get the best move with AlphaBeta.
+            // Depth can be set here.
+            int depth = 3;
+            Tuple<int, TreeNode<State>> result = engine.AlphaBeta(depth, -1000000, 1000000, tree, currentNode, state.Map.FriendlyType);
             TreeNode<State> nextNode = result.Item2;
             List<Move> moves = nextNode.Moves;
 
-            //Default value
+            // Default value
             string startBuffer = "MOV";
             byte[] response = Move.convertToByteArray(moves);
 
             socket.Send(Encoding.ASCII.GetBytes(startBuffer));
             socket.Send(new byte[] { (byte)(moves.Count) });
             socket.Send(response);
-            
         } 
     }
 }

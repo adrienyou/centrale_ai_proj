@@ -16,7 +16,6 @@ namespace VampiresVSWerewolves
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-
             while (sw.Elapsed < TimeSpan.FromSeconds(1.5))
             {
                 //result == fonction qui calcule l'arbre et tout 
